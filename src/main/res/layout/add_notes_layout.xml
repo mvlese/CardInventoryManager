@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/NewTeamLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:padding="10px">
+
+    <TextView
+        android:textSize="10pt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/add_notes_title"
+        android:id="@+id/add_notes_title"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:layout_below="@+id/add_notes_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notes_edit"
+        android:hint="@string/add_notes_hints"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:gravity="top|left"
+        android:focusableInTouchMode="true"/>
+
+    <Button
+        android:layout_below="@id/notes_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/ok_button"
+        android:id="@+id/ok_button"
+        android:enabled="false" />
+
+    <Button
+        android:layout_below="@id/notes_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_button"
+        android:id="@+id/cancel_button"
+        android:layout_gravity="right" />
+
+</RelativeLayout>

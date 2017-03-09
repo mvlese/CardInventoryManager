@@ -1,7 +1,10 @@
 package net.leseonline.cardinventorymanager;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class ImageAdapter extends BaseAdapter {
+    private int[] imageIds = new int[] {
+            R.drawable.bc1,
+            R.drawable.bc2,
+            R.drawable.bc3,
+            R.drawable.bc4,
+            R.drawable.bc5,
+            R.drawable.bc6,
+            R.drawable.bc7,
+            R.drawable.bc8,
+            R.drawable.bc9,
+    };
     private Context context;
     private final String[] mobileValues;
     int column_width , column_height ;
@@ -20,6 +34,7 @@ public class ImageAdapter extends BaseAdapter {
         this.column_height = column_height ;
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder viewHolder ;
@@ -27,10 +42,10 @@ public class ImageAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.grid_item, null);
             // set image based on selected text
-            viewHolder. imageView = (ImageView) convertView
-                    .findViewById(R.id.grid_item_image);
-
-            viewHolder.lin  = (LinearLayout)convertView.findViewById(R.id.lin);
+            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.grid_item_image);
+            Drawable drawable = context.getResources().getDrawable(imageIds[position]);
+            viewHolder.imageView.setImageDrawable(drawable);
+            viewHolder.lin = (LinearLayout)convertView.findViewById(R.id.lin);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder)convertView.getTag();
@@ -50,10 +65,6 @@ public class ImageAdapter extends BaseAdapter {
     public int getCount() {
         return mobileValues.length;
     }
-    public class ViewHolder {
-        ImageView imageView ;
-        LinearLayout lin ;
-    }
 
     @Override
     public Object getItem(int position) {
@@ -63,6 +74,14 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return 0;
+    }
+
+    /**
+     *
+     */
+    public class ViewHolder {
+        ImageView imageView ;
+        LinearLayout lin ;
     }
 
 }

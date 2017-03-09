@@ -6,14 +6,16 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import net.leseonline.cardinventorymanager.db.CardsContract;
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
         n = mDatabaseHelper.getNextUniqueid();
         Log.d(TAG, String.valueOf(n));
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int mDisplayWidth = metrics.widthPixels ;
+        int usableWidth = (int)(mDisplayWidth * 0.85);
+
         singleViewButton = (ImageButton)findViewById(R.id.card_view);
+        singleViewButton.setLayoutParams(getLayoutParams(usableWidth));
         singleViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binderViewButton = (ImageButton)findViewById(R.id.binder_view);
+        binderViewButton.setLayoutParams(getLayoutParams(usableWidth));
         binderViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cameraViewButton = (ImageButton)findViewById(R.id.camera_view);
+        cameraViewButton.setLayoutParams(getLayoutParams(usableWidth));
         cameraViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,14 +102,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         settingsViewButton = (ImageButton)findViewById(R.id.settings_view);
+        settingsViewButton.setLayoutParams(getLayoutParams(usableWidth));
         settingsViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+
                 // TODO mvl - This does not belong here.
-                Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
-                intent.putExtra(getResources().getString(R.string.extra_unique_id), mCardUniqueId);
-                startActivityForResult(intent, CAPTURE_DATA_REQUEST);
+//                Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
+//                intent.putExtra(getResources().getString(R.string.extra_unique_id), mCardUniqueId);
+//                startActivityForResult(intent, CAPTURE_DATA_REQUEST);
             }
         });
 
@@ -201,4 +214,10 @@ public class MainActivity extends AppCompatActivity {
         // show edit activity with CAPTURE_DATA_REQUEST
     }
 
+    private GridLayout.LayoutParams getLayoutParams(int size) {
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.height = size / 2;
+        layoutParams.width = size / 2;
+        return layoutParams;
+    }
 }

@@ -26,4 +26,5 @@
     <string name="add_notes_hints">Notes</string>
     <string name="extra_unique_id">net.leseonline.extra_unique_id</string>
     <string name="title_activity_single_card">SingleCardActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

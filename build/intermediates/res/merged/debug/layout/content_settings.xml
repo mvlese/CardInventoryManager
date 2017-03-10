@@ -17,10 +17,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Settings"
+        android:text="@string/settings"
         android:id="@+id/settings_header"
         android:textStyle="bold"
-        android:textSize="20dp"/>
+        android:textSize="20sp"/>
     <GridLayout
         android:layout_below="@id/settings_header"
         android:orientation="vertical"
@@ -34,17 +34,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            android:paddingRight="10dp"
             android:layout_row="0"
             android:layout_column="0"
-            android:textSize="20dp"
-            android:text="Haptics"/>
+            android:textSize="20sp"
+            android:text="@string/haptics"/>
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_marginStart="30dp"
             android:layout_row="0"
             android:layout_column="1"
             android:id="@+id/switch_haptics"/>
@@ -52,17 +52,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            android:paddingRight="10dp"
             android:layout_row="1"
             android:layout_column="0"
-            android:textSize="20dp"
-            android:text="Sound"/>
+            android:textSize="20sp"
+            android:text="@string/sound"/>
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_marginStart="30dp"
             android:layout_row="1"
             android:layout_column="1"
             android:id="@+id/switch_sound"/>
@@ -70,78 +70,157 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:paddingBottom="10dp"
-            android:paddingRight="10dp"
             android:layout_row="2"
             android:layout_column="0"
-            android:textSize="20dp"
-            android:text="Messaging"/>
+            android:textSize="20sp"
+            android:text="@string/messaging"/>
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:layout_marginStart="30dp"
             android:layout_row="2"
             android:layout_column="1"
             android:id="@+id/switch_messaging"/>
     </GridLayout>
-    <LinearLayout
+    <TextView
         android:layout_below="@id/settings_grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="@string/sort_order"
+        android:id="@+id/settings_sort_heading"
+        android:background="#fbf9b6"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+    <GridLayout
+        android:layout_below="@id/settings_sort_heading"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="6"
+        android:weightSum="1"
+        android:id="@+id/settings_grid_sort_order">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:text="Sort Order"
-            android:id="@+id/settings_sort_heading"
-            android:background="#fbf9b6"
-            android:textStyle="bold"
-            android:textSize="20dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="20sp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Player Name"/>
-        <TextView
-            android:layout_width="match_parent"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:id="@+id/sort_player_text_view"
+            android:text="@string/player_name"/>
+        <Switch
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="#fbf9b6"
-            android:text="Team Name"/>
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/switch_player_name"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="20sp"
             android:layout_marginBottom="10dp"
-            android:text="Year"/>
+            android:layout_row="1"
+            android:layout_column="0"
+            android:id="@+id/sort_team_text_view"
+            android:text="@string/team_name"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/switch_team_name"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="20sp"
             android:layout_marginBottom="10dp"
-            android:background="#fbf9b6"
-            android:text="Value"/>
+            android:layout_row="2"
+            android:layout_column="0"
+            android:id="@+id/sort_year_text_view"
+            android:text="@string/year"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:id="@+id/switch_year"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="20sp"
             android:layout_marginBottom="10dp"
-            android:text="Condition"/>
+            android:layout_row="3"
+            android:layout_column="0"
+            android:id="@+id/sort_value_text_view"
+            android:text="@string/value"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:id="@+id/switch_value"/>
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="20sp"
             android:layout_marginBottom="10dp"
-            android:background="#fbf9b6"
-            android:text="Company"/>
-    </LinearLayout>
+            android:layout_row="4"
+            android:layout_column="0"
+            android:id="@+id/sort_condition_text_view"
+            android:text="@string/condition"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:id="@+id/switch_condition"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="20sp"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:id="@+id/sort_company_text_view"
+            android:text="@string/company"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:id="@+id/switch_company"/>
+    </GridLayout>
+
 </RelativeLayout>

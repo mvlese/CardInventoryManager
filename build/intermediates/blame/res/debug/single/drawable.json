@@ -8,6 +8,14 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape.xml",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\shape.xml"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\shape_droptarget.xml",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\shape_droptarget.xml"
+    },
+    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_btn_colored_material.xml"
     },

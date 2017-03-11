@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<!-- <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,12 +13,22 @@
     tools:context="net.leseonline.cardinventorymanager.CaptureActivity"
     tools:showIn="@layout/activity_capture">
 
-    <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/camera"
-        android:scaleType="fitXY"
-        android:contentDescription="Capture"
-        android:id="@+id/camera_button" />
-
+    <SurfaceView
+        android:id="@+id/camerapreview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
 </RelativeLayout>
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+    >
+<SurfaceView
+    android:id="@+id/camerapreview"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    />
+</LinearLayout>
+

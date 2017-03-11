@@ -1,9 +1,15 @@
 package net.leseonline.cardinventorymanager;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -18,6 +24,9 @@ import android.widget.Toast;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
+import java.io.File;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private Vibrator myVib;
     private ImageButton singleViewButton;
@@ -29,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private final int TAKE_PICTURE_REQUEST = 7;
     private final int CAPTURE_DATA_REQUEST = 6;
     private final String TAG = "MainActivity";
+    private File mPhotoFile;
 
     private enum CameraState {
         CAPTURE_IDLE,
@@ -47,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mCardUniqueId = -1;
+
+        File filesDir = this.getFilesDir();
+        mPhotoFile = new File(filesDir, "image.jpg");
 
         // TODO mvl - Delete this and the "next uniqueId" code when necessary.
         deleteDatabase(DatabaseHelper.DATABASE_NAME);
@@ -87,16 +100,17 @@ public class MainActivity extends AppCompatActivity {
         cameraViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Toast.makeText(MainActivity.this.getApplicationContext(), "Capture an Image", Toast.LENGTH_SHORT).show();
-                //Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
-                //startActivity(captureIntent);
+//                Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
+//                startActivity(captureIntent);
                 final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 boolean canTakePhoto = (captureImage.resolveActivity(getPackageManager()) != null);
                 if (canTakePhoto) {
                     // This uniqueId will be used to form the image file names.
                     mCardUniqueId = mDatabaseHelper.getNextUniqueid();
                     mCameraState = CameraState.CAPTURE_FRONT;
-                    startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
+                    captureImage(captureImage, mCardUniqueId, true);
                 }
             }
         });
@@ -166,13 +180,22 @@ public class MainActivity extends AppCompatActivity {
                     case CAPTURE_IDLE:
                         break;
                     case CAPTURE_FRONT:
+                        revokeWriteUriPermission();
                         mCameraState = CameraState.CAPTURE_BACK;
                         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
+                        captureImage(captureImage, mCardUniqueId, false);
                         break;
                     case CAPTURE_BACK:
+                        mCameraState = CameraState.CAPTURE_DATA;
+                        revokeWriteUriPermission();
+                        Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath());
+                        int width = bitmap.getWidth();
+                        Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
+                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mCardUniqueId);
+                        startActivityForResult(intent, CAPTURE_DATA_REQUEST);
                         break;
                     case CAPTURE_DATA:
+                        mCameraState = CameraState.CAPTURE_IDLE;
                         break;
                     case CAPTURE_COMPLETE:
                         break;
@@ -188,11 +211,15 @@ public class MainActivity extends AppCompatActivity {
                     case CAPTURE_IDLE:
                         break;
                     case CAPTURE_FRONT:
+                        revokeWriteUriPermission();
                         mCameraState = CameraState.CAPTURE_IDLE;
                         break;
                     case CAPTURE_BACK:
+                        revokeWriteUriPermission();
+                        mCameraState = CameraState.CAPTURE_IDLE;
                         break;
                     case CAPTURE_DATA:
+                        mCameraState = CameraState.CAPTURE_IDLE;
                         break;
                     case CAPTURE_COMPLETE:
                         break;
@@ -207,9 +234,40 @@ public class MainActivity extends AppCompatActivity {
             } else if (resultCode == RESULT_CANCELED) {
 
             }
+            mCameraState = CameraState.CAPTURE_IDLE;
         }
     }
 
+    private void captureImage(Intent captureImage, int uniqueId, boolean isFront) {
+        File filesDir = MainActivity.this.getFilesDir();
+        String pre = isFront ? "IMGF_" : "IMGB_";
+        mPhotoFile = new File(filesDir, pre + String.valueOf(mCardUniqueId) + ".jpg");
+
+        Uri uri = FileProvider.getUriForFile(this,
+                "net.leseonline.fileprovider",
+                MainActivity.this.mPhotoFile);
+        captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        List<ResolveInfo> cameraActivities = this
+                .getPackageManager().queryIntentActivities(captureImage,
+                        PackageManager.MATCH_DEFAULT_ONLY);
+
+        for (ResolveInfo activity : cameraActivities) {
+            this.grantUriPermission(activity.activityInfo.packageName,
+                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+
+        startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
+    }
+
+    private void revokeWriteUriPermission() {
+        Uri uri = FileProvider.getUriForFile(this,
+                "net.leseonline.fileprovider",
+                mPhotoFile);
+
+        this.revokeUriPermission(uri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    }
     private void captureData() {
         // show edit activity with CAPTURE_DATA_REQUEST
     }

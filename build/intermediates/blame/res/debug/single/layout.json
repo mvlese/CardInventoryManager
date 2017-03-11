@@ -112,6 +112,10 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\layout\\content_binder.xml"
     },
     {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\layout\\control.xml",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\layout\\control.xml"
+    },
+    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\layout\\grid_item.xml",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\layout\\grid_item.xml"
     },

@@ -70,7 +70,7 @@ public class CardsContract {
         public static final String COLUMN_NAME_CREATED = "created";
     }
 
-    // This hold the most recent card sequence number.
+    // This holds the most recent card sequence number.
     public static abstract class CardSequence implements BaseColumns {
         public static final String TABLE_NAME = "card_sequence";
         public static final String COLUMN_NAME_SEQUENCE_NUM = "sequence_num";
@@ -78,13 +78,16 @@ public class CardsContract {
 
     public static abstract class EffectsStates implements BaseColumns {
         public static final String TABLE_NAME = "effect_states";
+        public static final String COLUMN_NAME_FRIENDLY_NAME = "friendly_name";
         public static final String COLUMN_NAME_RES_ID = "res_id";
         public static final String COLUMN_NAME_IS_ON = "is_on";
     }
+
     public static abstract class SortOrders implements BaseColumns {
         public static final String TABLE_NAME = "order_states";
-        public static final String COLUMN_NAME_RES_ID = "res_id";
-        public static final String COLUMN_NAME_SWITCH_RES_ID = "switch_res_id";
+        public static final String COLUMN_NAME_FRIENDLY_NAME = "friendly_name";
+        public static final String COLUMN_NAME_ENABLED_RES_ID = "enabled_res_id";
+        public static final String COLUMN_NAME_DESC_RES_ID = "desc_res_id";
         public static final String COLUMN_NAME_SORT_ORDER = "sort_order";
         public static final String COLUMN_NAME_SORT_ENABLED = "sort_enabled";
         public static final String COLUMN_NAME_IS_DESC = "is_desc";

@@ -62,13 +62,13 @@ public class MainActivity extends AppCompatActivity {
         mPhotoFile = new File(filesDir, "image.jpg");
 
         // TODO mvl - Delete this and the "next uniqueId" code when necessary.
-        deleteDatabase(DatabaseHelper.DATABASE_NAME);
-        int n = mDatabaseHelper.getNextUniqueid();
-        Log.d(TAG, String.valueOf(n));
-        n = mDatabaseHelper.getNextUniqueid();
-        Log.d(TAG, String.valueOf(n));
-        n = mDatabaseHelper.getNextUniqueid();
-        Log.d(TAG, String.valueOf(n));
+//        deleteDatabase(DatabaseHelper.DATABASE_NAME);
+//        int n = mDatabaseHelper.getNextUniqueid();
+//        Log.d(TAG, String.valueOf(n));
+//        n = mDatabaseHelper.getNextUniqueid();
+//        Log.d(TAG, String.valueOf(n));
+//        n = mDatabaseHelper.getNextUniqueid();
+//        Log.d(TAG, String.valueOf(n));
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);

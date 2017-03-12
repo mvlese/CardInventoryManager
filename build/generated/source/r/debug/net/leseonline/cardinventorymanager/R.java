@@ -2506,7 +2506,7 @@ containing a value of this type.
         public static final int switch_team_order=0x7f0d0097;
         public static final int switch_value=0x7f0d009a;
         public static final int switch_value_order=0x7f0d009b;
-        public static final int switch_year2=0x7f0d0098;
+        public static final int switch_year=0x7f0d0098;
         public static final int switch_year_order=0x7f0d0099;
         public static final int tabMode=0x7f0d000d;
         public static final int takepicture=0x7f0d00a1;

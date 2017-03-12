@@ -67,116 +67,54 @@ public class SettingsActivity extends AppCompatActivity {
         int n = 0;
 
         mDatabaseHelper = new DatabaseHelper(this);
-//        SortOrder[] sortOrders = mDatabaseHelper.getSortOrders();
-//        EffectState[] effectStates = mDatabaseHelper.getEffectStates();
+        SortOrder[] sortOrders = mDatabaseHelper.getSortOrders();
+        EffectState[] effectStates = mDatabaseHelper.getEffectStates();
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDisplayWidth = metrics.widthPixels ;
 
-//        for (SortOrder so: sortOrders) {
-//            int id = so.getResId();
-//            Switch sw = (Switch) findViewById(id);
-//            sw.setChecked(so.isEnabled());
-//
-//        }
+        for(final EffectState es: effectStates) {
+            int resId = es.getResId();
+            Switch sw = (Switch) findViewById(resId);
+            sw.setChecked(es.isOn());
+            sw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDatabaseHelper.setEffectStateIsOn(v.getId(), ((Switch) v).isChecked());
+                }
+            });
+        }
 
-        Switch lay = (Switch)findViewById(R.id.switch_company);
-        lay.setOnDragListener(new DragEventListener());
-        lay.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "company_layout");
-                return true;
-            }
-        });
-       // mSortGridLayout = (GridLayout)findViewById(R.id.settings_grid_sort_order);
+        for (final SortOrder so: sortOrders) {
+            int enabledResId = so.getEnabledResId();
+            Switch sw = (Switch) findViewById(enabledResId);
+            sw.setChecked(so.isEnabled());
+            sw.setTag(so.getFriendlyName());
+            sw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDatabaseHelper.setSortOrderEnabledState(v.getId(), ((Switch)v).isChecked());
+                }
+            });
+            sw.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    handleOnLongClickForTextView(v, so.getFriendlyName());
+                    return true;
+                }
+            });
 
-//        mPlayerTextView = (TextView) findViewById(R.id.sort_player_text_view);
-//        mOrderMap.put(R.id.sort_player_text_view, n++);
-//        mPlayerTextView.setTag("player-tag");
-//        mPlayerTextView.setOnDragListener(new DragEventListener());
-//        mPlayerTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                handleOnLongClickForTextView(v, "player");
-//                return true;
-//            }
-//        });
-//
-//        mTeamTextView = (TextView) findViewById(R.id.sort_team_text_view);
-//        mOrderMap.put(R.id.sort_team_text_view, n++);
-//        mTeamTextView.setTag("team-tag");
-//        mTeamTextView.setOnDragListener(new DragEventListener());
-//        mTeamTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                handleOnLongClickForTextView(v, "team");
-//                return true;
-//            }
-//        });
-//
-//        mValueTextView = (TextView) findViewById(R.id.sort_value_text_view);
-//        mOrderMap.put(R.id.sort_value_text_view, n++);
-//        mValueTextView.setTag("value-tag");
-//        mValueTextView.setOnDragListener(new DragEventListener());
-//        mValueTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                handleOnLongClickForTextView(v, "value");
-//                return true;
-//            }
-//        });
-//
-//        mYearTextView = (TextView) findViewById(R.id.sort_year_text_view);
-//        mOrderMap.put(R.id.sort_year_text_view, n++);
-//        mYearTextView.setTag("year-tag");
-//        mYearTextView.setOnDragListener(new DragEventListener());
-//        mYearTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                handleOnLongClickForTextView(v, "year");
-//                return true;
-//            }
-//        });
-//
-//        mConditionTextView = (TextView) findViewById(R.id.sort_condition_text_view);
-//        mOrderMap.put(R.id.sort_condition_text_view, n++);
-//        mConditionTextView.setTag("condition-tag");
-//        mConditionTextView.setOnDragListener(new DragEventListener());
-//        mConditionTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                handleOnLongClickForTextView(v, "condition");
-//                return true;
-//            }
-//        });
-//
-//        mCompanyTextView = (TextView) findViewById(R.id.sort_company_text_view);
-//        mOrderMap.put(R.id.sort_company_text_view, n++);
-//        mCompanyTextView.setTag("company-tag");
-//        mCompanyTextView.setOnDragListener(new DragEventListener());
-//        mCompanyTextView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                handleOnLongClickForTextView(v, "company");
-//                return true;
-//            }
-//        });
-
-//        for (final Integer key: mOrderMap.keySet()) {
-//            Integer resource = mOrderMap.get(key);
-//            TextView view = (TextView) findViewById(resource);
-//            view.setTag(key.toString());
-//            view.setOnDragListener(new DragEventListener());
-//            view.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    handleOnLongClickForTextView(v, key.toString());
-//                    return true;
-//                }
-//            });
-//        }
+            int descendingResId = so.getDescendingResId();
+            Switch orderSwitch = (Switch) findViewById(descendingResId);
+            orderSwitch.setChecked(so.isDesc());
+            orderSwitch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mDatabaseHelper.setSortOrderIsDescending(v.getId(), ((Switch) v).isChecked());
+                }
+            });
+        }
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

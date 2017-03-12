@@ -38,77 +38,77 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SORT_ORDERS);
 
         // Fill effect states;
-        EffectState es = new EffectState();
-        es.setResId(R.id.switch_haptics);
-        es.setIsOn(false);
-        addToEffectStates(es, db);
-
-        es = new EffectState();
-        es.setResId(R.id.switch_sound);
-        es.setIsOn(false);
-        addToEffectStates(es, db);
-
-        es = new EffectState();
-        es.setResId(R.id.switch_messaging);
-        es.setIsOn(false);
-        addToEffectStates(es, db);
-
-        // Fill sort orders.
-        SortOrder so = new SortOrder();
-        so.setResId(R.id.sort_player_text_view);
-        so.setSwitchResId(R.id.switch_player_name);
-        so.setSortOrder(0);
-        so.setIsDesc(false);
-        so.setIsEnabled(true);
-        addToSortOrders(so, db);
-
-        so = new SortOrder();
-        so.setResId(R.id.sort_team_text_view);
-        so.setSwitchResId(R.id.switch_team_name);
-        so.setSortOrder(1);
-        so.setIsDesc(false);
-        so.setIsEnabled(false);
-        addToSortOrders(so, db);
-
-        so = new SortOrder();
-        so.setResId(R.id.sort_value_text_view);
-        so.setSwitchResId(R.id.switch_value);
-        so.setSortOrder(2);
-        so.setIsDesc(false);
-        so.setIsEnabled(false);
-        addToSortOrders(so, db);
-
-        so = new SortOrder();
-        so.setResId(R.id.sort_year_text_view);
-        so.setSwitchResId(R.id.switch_year);
-        so.setSortOrder(3);
-        so.setIsDesc(false);
-        so.setIsEnabled(false);
-        addToSortOrders(so, db);
-
-        so = new SortOrder();
-        so.setResId(R.id.sort_player_text_view);
-        so.setSwitchResId(R.id.switch_player_name);
-        so.setSortOrder(4);
-        so.setIsDesc(false);
-        so.setIsEnabled(false);
-        addToSortOrders(so, db);
-
-        so = new SortOrder();
-        so.setResId(R.id.sort_condition_text_view);
-        so.setSwitchResId(R.id.switch_condition);
-        so.setSortOrder(5);
-        so.setIsDesc(false);
-        so.setIsEnabled(false);
-        addToSortOrders(so, db);
-
-        so = new SortOrder();
-        so.setResId(R.id.sort_company_text_view);
-        so.setSwitchResId(R.id.switch_company);
-        so.setSortOrder(6);
-        so.setIsDesc(false);
-        so.setIsEnabled(false);
-        addToSortOrders(so, db);
+//        EffectState es = new EffectState();
+//        es.setResId(R.id.switch_haptics);
+//        es.setIsOn(false);
+//        addToEffectStates(es, db);
+//
+//        es = new EffectState();
+//        es.setResId(R.id.switch_sound);
+//        es.setIsOn(false);
+//        addToEffectStates(es, db);
+//
+//        es = new EffectState();
+//        es.setResId(R.id.switch_messaging);
+//        es.setIsOn(false);
+//        addToEffectStates(es, db);
+//
+//        // Fill sort orders.
+//        SortOrder so = new SortOrder();
+//        so.setResId(R.id.sort_player_text_view);
+//        so.setSwitchResId(R.id.switch_player_name);
+//        so.setSortOrder(0);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(true);
+//        addToSortOrders(so, db);
+//
+//        so = new SortOrder();
+//        so.setResId(R.id.sort_team_text_view);
+//        so.setSwitchResId(R.id.switch_team_name);
+//        so.setSortOrder(1);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(false);
+//        addToSortOrders(so, db);
+//
+//        so = new SortOrder();
+//        so.setResId(R.id.sort_value_text_view);
+//        so.setSwitchResId(R.id.switch_value);
+//        so.setSortOrder(2);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(false);
+//        addToSortOrders(so, db);
+//
+//        so = new SortOrder();
+//        so.setResId(R.id.sort_year_text_view);
+//        so.setSwitchResId(R.id.switch_year);
+//        so.setSortOrder(3);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(false);
+//        addToSortOrders(so, db);
+//
+//        so = new SortOrder();
+//        so.setResId(R.id.sort_player_text_view);
+//        so.setSwitchResId(R.id.switch_player_name);
+//        so.setSortOrder(4);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(false);
+//        addToSortOrders(so, db);
+//
+//        so = new SortOrder();
+//        so.setResId(R.id.sort_condition_text_view);
+//        so.setSwitchResId(R.id.switch_condition);
+//        so.setSortOrder(5);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(false);
+//        addToSortOrders(so, db);
+//
+//        so = new SortOrder();
+//        so.setResId(R.id.sort_company_text_view);
+//        so.setSwitchResId(R.id.switch_company);
+//        so.setSortOrder(6);
+//        so.setIsDesc(false);
+//        so.setIsEnabled(false);
+//        addToSortOrders(so, db);
     }
 
     @Override
@@ -366,51 +366,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public SortOrder[] getSortOrders() {
-        SortOrder[] sortOrders = new SortOrder[0];
-        String sql = "SELECT count(*) from " + CardsContract.SortOrders.TABLE_NAME;
-        SQLiteDatabase db = null;
-        try {
-            int count = 0;
-            db = this.getReadableDatabase();
-            Cursor c = db.rawQuery(sql, null);
-            if (c.moveToNext()) {
-                count = c.getInt(0);
-                sortOrders = new SortOrder[count];
-            }
-            c.close();
-            if (count > 0) {
-                sql = "SELECT " +
-                        CardsContract.SortOrders.COLUMN_NAME_RES_ID + ", " +
-                        CardsContract.SortOrders.COLUMN_NAME_SWITCH_RES_ID + ", " +
-                        CardsContract.SortOrders.COLUMN_NAME_SORT_ORDER + ", " +
-                        CardsContract.SortOrders.COLUMN_NAME_SORT_ENABLED + ", " +
-                        CardsContract.SortOrders.COLUMN_NAME_IS_DESC +
-                        " from " + CardsContract.SortOrders.TABLE_NAME;
-                c = db.rawQuery(sql, null);
-                int n = 0;
-                while (c.moveToNext()) {
-                    SortOrder sortOrder = new SortOrder();
-                    sortOrder.setResId(c.getInt(0));
-                    sortOrder.setSwitchResId(c.getInt(1));
-                    sortOrder.setSortOrder(c.getInt(2));
-                    sortOrder.setIsEnabled(c.getInt(3) != 0);
-                    sortOrder.setIsDesc(c.getInt(4) != 0);
-                    sortOrders[n++] = sortOrder;
-                }
-                c.close();
-            }
-        }catch (Exception ex) {
-            String s = ex.getMessage();
-        } finally {
-            try {
-                db.close();
-            }catch (Exception ex) {
-            }
-        }
-
-        return sortOrders;
-    }
+//    public SortOrder[] getSortOrders() {
+//        SortOrder[] sortOrders = new SortOrder[0];
+//        String sql = "SELECT count(*) from " + CardsContract.SortOrders.TABLE_NAME;
+//        SQLiteDatabase db = null;
+//        try {
+//            int count = 0;
+//            db = this.getReadableDatabase();
+//            Cursor c = db.rawQuery(sql, null);
+//            if (c.moveToNext()) {
+//                count = c.getInt(0);
+//                sortOrders = new SortOrder[count];
+//            }
+//            c.close();
+//            if (count > 0) {
+//                sql = "SELECT " +
+//                        CardsContract.SortOrders.COLUMN_NAME_RES_ID + ", " +
+//                        CardsContract.SortOrders.COLUMN_NAME_SWITCH_RES_ID + ", " +
+//                        CardsContract.SortOrders.COLUMN_NAME_SORT_ORDER + ", " +
+//                        CardsContract.SortOrders.COLUMN_NAME_SORT_ENABLED + ", " +
+//                        CardsContract.SortOrders.COLUMN_NAME_IS_DESC +
+//                        " from " + CardsContract.SortOrders.TABLE_NAME;
+//                c = db.rawQuery(sql, null);
+//                int n = 0;
+//                while (c.moveToNext()) {
+//                    SortOrder sortOrder = new SortOrder();
+//                    sortOrder.setResId(c.getInt(0));
+//                    sortOrder.setSwitchResId(c.getInt(1));
+//                    sortOrder.setSortOrder(c.getInt(2));
+//                    sortOrder.setIsEnabled(c.getInt(3) != 0);
+//                    sortOrder.setIsDesc(c.getInt(4) != 0);
+//                    sortOrders[n++] = sortOrder;
+//                }
+//                c.close();
+//            }
+//        }catch (Exception ex) {
+//            String s = ex.getMessage();
+//        } finally {
+//            try {
+//                db.close();
+//            }catch (Exception ex) {
+//            }
+//        }
+//
+//        return sortOrders;
+//    }
 
     public EffectState[] getEffectStates() {
         EffectState[] effectStates = new EffectState[0];
@@ -464,20 +464,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void addToSortOrders(SortOrder so, SQLiteDatabase db) {
-        ContentValues values = new ContentValues();
-        values.put(CardsContract.SortOrders.COLUMN_NAME_RES_ID, so.getResId());
-        values.put(CardsContract.SortOrders.COLUMN_NAME_SWITCH_RES_ID, so.getSwitchResId());
-        values.put(CardsContract.SortOrders.COLUMN_NAME_SORT_ORDER, so.getSortOrder());
-        values.put(CardsContract.SortOrders.COLUMN_NAME_IS_DESC, so.isDesc() ? 1 : 0);
-        values.put(CardsContract.SortOrders.COLUMN_NAME_SORT_ENABLED, so.isEnabled() ? 1 : 0);
-
-        try {
-            db.insert(CardsContract.SortOrders.TABLE_NAME, null, values);
-        } catch (Exception ex) {
-            String s = ex.getMessage();
-        }
-    }
+//    public void addToSortOrders(SortOrder so, SQLiteDatabase db) {
+//        ContentValues values = new ContentValues();
+//        values.put(CardsContract.SortOrders.COLUMN_NAME_RES_ID, so.getResId());
+//        values.put(CardsContract.SortOrders.COLUMN_NAME_SWITCH_RES_ID, so.getSwitchResId());
+//        values.put(CardsContract.SortOrders.COLUMN_NAME_SORT_ORDER, so.getSortOrder());
+//        values.put(CardsContract.SortOrders.COLUMN_NAME_IS_DESC, so.isDesc() ? 1 : 0);
+//        values.put(CardsContract.SortOrders.COLUMN_NAME_SORT_ENABLED, so.isEnabled() ? 1 : 0);
+//
+//        try {
+//            db.insert(CardsContract.SortOrders.TABLE_NAME, null, values);
+//        } catch (Exception ex) {
+//            String s = ex.getMessage();
+//        }
+//    }
 
     private static final String CREATE_TABLE_CARDS = "CREATE TABLE " +
             CardsContract.CardsEntry.TABLE_NAME + "(" +

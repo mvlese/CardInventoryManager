@@ -24,6 +24,8 @@ import android.view.DragEvent;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,86 +67,102 @@ public class SettingsActivity extends AppCompatActivity {
         int n = 0;
 
         mDatabaseHelper = new DatabaseHelper(this);
-        SortOrder[] sortOrders = mDatabaseHelper.getSortOrders();
-        EffectState[] effectStates = mDatabaseHelper.getEffectStates();
+//        SortOrder[] sortOrders = mDatabaseHelper.getSortOrders();
+//        EffectState[] effectStates = mDatabaseHelper.getEffectStates();
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mDisplayWidth = metrics.widthPixels ;
 
-        mSortGridLayout = (GridLayout)findViewById(R.id.settings_grid_sort_order);
+//        for (SortOrder so: sortOrders) {
+//            int id = so.getResId();
+//            Switch sw = (Switch) findViewById(id);
+//            sw.setChecked(so.isEnabled());
+//
+//        }
 
-        mPlayerTextView = (TextView) findViewById(R.id.sort_player_text_view);
-        mOrderMap.put(R.id.sort_player_text_view, n++);
-        mPlayerTextView.setTag("player-tag");
-        mPlayerTextView.setOnDragListener(new DragEventListener());
-        mPlayerTextView.setOnLongClickListener(new View.OnLongClickListener() {
+        Switch lay = (Switch)findViewById(R.id.switch_company);
+        lay.setOnDragListener(new DragEventListener());
+        lay.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "player");
+                handleOnLongClickForTextView(v, "company_layout");
                 return true;
             }
         });
+       // mSortGridLayout = (GridLayout)findViewById(R.id.settings_grid_sort_order);
 
-        mTeamTextView = (TextView) findViewById(R.id.sort_team_text_view);
-        mOrderMap.put(R.id.sort_team_text_view, n++);
-        mTeamTextView.setTag("team-tag");
-        mTeamTextView.setOnDragListener(new DragEventListener());
-        mTeamTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "team");
-                return true;
-            }
-        });
-
-        mValueTextView = (TextView) findViewById(R.id.sort_value_text_view);
-        mOrderMap.put(R.id.sort_value_text_view, n++);
-        mValueTextView.setTag("value-tag");
-        mValueTextView.setOnDragListener(new DragEventListener());
-        mValueTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "value");
-                return true;
-            }
-        });
-
-        mYearTextView = (TextView) findViewById(R.id.sort_year_text_view);
-        mOrderMap.put(R.id.sort_year_text_view, n++);
-        mYearTextView.setTag("year-tag");
-        mYearTextView.setOnDragListener(new DragEventListener());
-        mYearTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "year");
-                return true;
-            }
-        });
-
-        mConditionTextView = (TextView) findViewById(R.id.sort_condition_text_view);
-        mOrderMap.put(R.id.sort_condition_text_view, n++);
-        mConditionTextView.setTag("condition-tag");
-        mConditionTextView.setOnDragListener(new DragEventListener());
-        mConditionTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "condition");
-                return true;
-            }
-        });
-
-        mCompanyTextView = (TextView) findViewById(R.id.sort_company_text_view);
-        mOrderMap.put(R.id.sort_company_text_view, n++);
-        mCompanyTextView.setTag("company-tag");
-        mCompanyTextView.setOnDragListener(new DragEventListener());
-        mCompanyTextView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                handleOnLongClickForTextView(v, "company");
-                return true;
-            }
-        });
+//        mPlayerTextView = (TextView) findViewById(R.id.sort_player_text_view);
+//        mOrderMap.put(R.id.sort_player_text_view, n++);
+//        mPlayerTextView.setTag("player-tag");
+//        mPlayerTextView.setOnDragListener(new DragEventListener());
+//        mPlayerTextView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                handleOnLongClickForTextView(v, "player");
+//                return true;
+//            }
+//        });
+//
+//        mTeamTextView = (TextView) findViewById(R.id.sort_team_text_view);
+//        mOrderMap.put(R.id.sort_team_text_view, n++);
+//        mTeamTextView.setTag("team-tag");
+//        mTeamTextView.setOnDragListener(new DragEventListener());
+//        mTeamTextView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                handleOnLongClickForTextView(v, "team");
+//                return true;
+//            }
+//        });
+//
+//        mValueTextView = (TextView) findViewById(R.id.sort_value_text_view);
+//        mOrderMap.put(R.id.sort_value_text_view, n++);
+//        mValueTextView.setTag("value-tag");
+//        mValueTextView.setOnDragListener(new DragEventListener());
+//        mValueTextView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                handleOnLongClickForTextView(v, "value");
+//                return true;
+//            }
+//        });
+//
+//        mYearTextView = (TextView) findViewById(R.id.sort_year_text_view);
+//        mOrderMap.put(R.id.sort_year_text_view, n++);
+//        mYearTextView.setTag("year-tag");
+//        mYearTextView.setOnDragListener(new DragEventListener());
+//        mYearTextView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                handleOnLongClickForTextView(v, "year");
+//                return true;
+//            }
+//        });
+//
+//        mConditionTextView = (TextView) findViewById(R.id.sort_condition_text_view);
+//        mOrderMap.put(R.id.sort_condition_text_view, n++);
+//        mConditionTextView.setTag("condition-tag");
+//        mConditionTextView.setOnDragListener(new DragEventListener());
+//        mConditionTextView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                handleOnLongClickForTextView(v, "condition");
+//                return true;
+//            }
+//        });
+//
+//        mCompanyTextView = (TextView) findViewById(R.id.sort_company_text_view);
+//        mOrderMap.put(R.id.sort_company_text_view, n++);
+//        mCompanyTextView.setTag("company-tag");
+//        mCompanyTextView.setOnDragListener(new DragEventListener());
+//        mCompanyTextView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                handleOnLongClickForTextView(v, "company");
+//                return true;
+//            }
+//        });
 
 //        for (final Integer key: mOrderMap.keySet()) {
 //            Integer resource = mOrderMap.get(key);
@@ -253,15 +271,12 @@ public class SettingsActivity extends AppCompatActivity {
         private Drawable shadow;
         private int mWidth;
         private int mHeight;
-        View mSwitchView = null;
 
         // Defines the constructor for myDragShadowBuilder
         public MyDragShadowBuilder(View v) {
 
             // Stores the View parameter passed to myDragShadowBuilder.
             super(v);
-
-            mSwitchView = SettingsActivity.this.getSwitchView(v);
 
             // Creates a draggable image that will fill the Canvas provided by the system.
             shadow = new ColorDrawable(Color.GRAY);
@@ -283,14 +298,14 @@ public class SettingsActivity extends AppCompatActivity {
             // The drag shadow is a ColorDrawable. This sets its dimensions to be the same as the
             // Canvas that the system will provide. As a result, the drag shadow will fill the
             // Canvas.
-            shadow.setBounds(0, -20, SettingsActivity.this.mDisplayWidth, height);
+            shadow.setBounds(0, 0, width, height);
 
             // Sets the size parameter's width and height values. These get back to the system
             // through the size parameter.
-            size.set(SettingsActivity.this.mDisplayWidth, height);
+            size.set(width, height);
 
             // Sets the touch point's position to be in the middle of the drag shadow
-            touch.set(SettingsActivity.this.mDisplayWidth / 4, height / 2);
+            touch.set(width / 2, height / 2);
         }
 
         // Defines a callback that draws the drag shadow in a Canvas that the system constructs
@@ -312,7 +327,6 @@ public class SettingsActivity extends AppCompatActivity {
             // Defines a variable to store the action type for the incoming event
             final int action = event.getAction();
             CharSequence dragData;
-            View switchView = SettingsActivity.this.getSwitchView(v);
 
             // Handles each of the expected events
             switch (action) {
@@ -322,7 +336,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                 case DragEvent.ACTION_DRAG_ENTERED:
                     v.setBackgroundDrawable(enterShape);
-                    switchView.setBackgroundDrawable(enterShape);
                     break;
 
                 case DragEvent.ACTION_DRAG_LOCATION:
@@ -330,7 +343,6 @@ public class SettingsActivity extends AppCompatActivity {
 
                 case DragEvent.ACTION_DRAG_EXITED:
                     v.setBackgroundDrawable(normalShape);
-                    switchView.setBackgroundDrawable(normalShape);
                     break;
 
                 case DragEvent.ACTION_DROP:
@@ -358,10 +370,8 @@ public class SettingsActivity extends AppCompatActivity {
                     // Turns off any color tinting
                     //v.clearColorFilter();
                     v.setBackgroundDrawable(normalShape);
-                    switchView.setBackgroundDrawable(normalShape);
                     // Invalidates the view to force a redraw
                     v.invalidate();
-                    switchView.invalidate();
 
                     // Does a getResult(), and displays what happened.
                     if (event.getResult()) {

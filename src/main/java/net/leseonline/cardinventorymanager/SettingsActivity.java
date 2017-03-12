@@ -31,6 +31,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import net.leseonline.cardinventorymanager.db.DatabaseHelper;
+
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
@@ -44,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView mCompanyTextView;
     private GridLayout mSortGridLayout;
     private HashMap<Integer, Integer> mOrderMap;
+    private DatabaseHelper mDatabaseHelper;
     private int mDisplayWidth;
 
     /**
@@ -60,6 +63,10 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mOrderMap = new HashMap<Integer, Integer>();
         int n = 0;
+
+        mDatabaseHelper = new DatabaseHelper(this);
+        SortOrder[] sortOrders = mDatabaseHelper.getSortOrders();
+        EffectState[] effectStates = mDatabaseHelper.getEffectStates();
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);

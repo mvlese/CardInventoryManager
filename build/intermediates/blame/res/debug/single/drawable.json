@@ -24,12 +24,12 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\rotate.png"
     },
     {
-        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_light.xml",
-        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_list_selector_holo_light.xml"
-    },
-    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc5.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc5.jpg"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_light.xml",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_list_selector_holo_light.xml"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
@@ -100,12 +100,12 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc8.jpg"
     },
     {
-        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\settings.jpg",
-        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\settings.jpg"
-    },
-    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc10.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc10.jpg"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\settings.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\settings.jpg"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_indicator_material.xml",
@@ -168,12 +168,12 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_seekbar_track_material.xml"
     },
     {
-        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc1.jpg",
-        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc1.jpg"
-    },
-    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc7.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc7.jpg"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc1.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc1.jpg"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_small_material.xml",

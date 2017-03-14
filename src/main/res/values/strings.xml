@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Card Inventory Manager</string>
     <string name="action_settings">Settings</string>
+    <string name="action_admin">Admin</string>
     <string name="binder_view">Binder View</string>
     <string name="single_view">Single View</string>
     <string name="camera_view">Camera View</string>
@@ -28,6 +29,9 @@
     <string name="title_activity_single_card">SingleCardActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
+    <string name="enter_admin_pw">Enter Admin Password</string>
+    <string name="admin_pw">Admin Password</string>
+
     <string name="settings">Settings</string>
     <string name="haptics">Haptics</string>
     <string name="sound">Sound</string>
@@ -40,4 +44,7 @@
     <string name="year">Year</string>
     <string name="condition">Condition</string>
     <string name="company">Company</string>
+
+    <string name="mine">yomomma</string>
+
 </resources>

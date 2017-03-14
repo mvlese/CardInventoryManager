@@ -292,9 +292,11 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="action_admin">Admin</string>
     <string name="action_settings">Settings</string>
     <string name="add_notes_hints">Notes</string>
     <string name="add_notes_title">Add Card Notes</string>
+    <string name="admin_pw">Admin Password</string>
     <string name="app_name">Card Inventory Manager</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="auth_google_play_services_client_facebook_display_name">Facebook</string>
@@ -339,12 +341,14 @@
     <string name="company_hint">Company</string>
     <string name="condition">Condition</string>
     <string name="condition_hint">Condition</string>
+    <string name="enter_admin_pw">Enter Admin Password</string>
     <string name="enter_notes_button">Notes...</string>
     <string name="extra_unique_id">net.leseonline.extra_unique_id</string>
     <string name="first_name_hint">First Name</string>
     <string name="haptics">Haptics</string>
     <string name="last_name_hint">Last Name</string>
     <string name="messaging">Messaging</string>
+    <string name="mine">yomomma</string>
     <string name="notes_hint">Notes</string>
     <string name="ok_button">OK</string>
     <string name="player_name">Player Name</string>

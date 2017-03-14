@@ -1,5 +1,6 @@
 package net.leseonline.cardinventorymanager;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -25,9 +26,10 @@ import android.widget.Toast;
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  AdminPwDialogFragment.IAdminPwDialogListener {
     private Vibrator myVib;
     private ImageButton singleViewButton;
     private ImageButton binderViewButton;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mPhotoFile = new File(filesDir, "image.jpg");
 
         // TODO mvl - Delete this and the "next uniqueId" code when necessary.
-        deleteDatabase(DatabaseHelper.DATABASE_NAME);
+//        deleteDatabase(DatabaseHelper.DATABASE_NAME);
 //        int n = mDatabaseHelper.getNextUniqueid();
 //        Log.d(TAG, String.valueOf(n));
 //        n = mDatabaseHelper.getNextUniqueid();
@@ -164,7 +166,14 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_admin) {
+            // show password dialog
+            // if entered password equals admin password, then delete DB and image files.
+//            Toast.makeText(MainActivity.this.getApplicationContext(), "Logon to Destroy Database", Toast.LENGTH_SHORT).show();
+            FragmentManager fm = getFragmentManager();
+            AdminPwDialogFragment dialogFragment = new AdminPwDialogFragment();
+            dialogFragment.show(fm, "EnterAdminPw");
+
             return true;
         }
 
@@ -242,8 +251,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onAdminPwDialogPositiveAction(AdminPwDialogFragment dialog) {
+        String mine = getResources().getString(R.string.mine);
+        int result = mine.compareTo(dialog.getPw());
+        String message = "";
+        if (result == 0) {
+            try {
+                // TODO mvl - destroy DB here and the image files.
+                deleteDatabase(DatabaseHelper.DATABASE_NAME);
+                deleteAllImageFiles();
+                message = "Destroyed DB and deleted files.";
+            } catch(Exception ex) {
+                message = "Failed to detroy DB and/or delete files.";
+            }
+            Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onAdminPwDialogNegativeAction(AdminPwDialogFragment dialog) {
+
+    }
+
     private void captureImage(Intent captureImage, int uniqueId, boolean isFront) {
-        File filesDir = MainActivity.this.getFilesDir();
+        File filesDir = this.getFilesDir();
         String pre = isFront ? "IMGF_" : "IMGB_";
         mPhotoFile = new File(filesDir, pre + String.valueOf(mCardUniqueId) + ".jpg");
 
@@ -272,6 +304,7 @@ public class MainActivity extends AppCompatActivity {
         this.revokeUriPermission(uri,
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
+
     private void captureData() {
         // show edit activity with CAPTURE_DATA_REQUEST
     }
@@ -281,5 +314,19 @@ public class MainActivity extends AppCompatActivity {
         layoutParams.height = size / 2;
         layoutParams.width = size / 2;
         return layoutParams;
+    }
+
+    private void deleteAllImageFiles() {
+        File filesDir = this.getFilesDir();
+        if (filesDir.isDirectory())
+        {
+            String[] children = filesDir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                if(children[i].toLowerCase().contains(".jpg")) {
+                    new File(filesDir, children[i]).delete();
+                }
+            }
+        }
     }
 }

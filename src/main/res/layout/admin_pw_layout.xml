@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/NewTeamLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:padding="10px">
+
+    <TextView
+        android:textSize="10pt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/enter_admin_pw"
+        android:id="@+id/enter_admin_pw"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:layout_below="@+id/enter_admin_pw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_admin_pw"
+        android:hint="@string/admin_pw"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:gravity="top|left"
+        android:focusableInTouchMode="true"/>
+
+    <Button
+        android:layout_below="@id/edit_admin_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/ok_button"
+        android:id="@+id/ok_button"
+        android:enabled="false" />
+
+    <Button
+        android:layout_below="@id/edit_admin_pw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_button"
+        android:id="@+id/cancel_button"
+        android:layout_gravity="right" />
+
+</RelativeLayout>

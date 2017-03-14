@@ -26,7 +26,6 @@ public class CardsContract {
         // backImagePath
         // createTimestamp
         public static final String TABLE_NAME = "cards";
-        public static final String COLUMN_NAME_UNIQUE_ID = "unique_id";
         public static final String COLUMN_NAME_CATEGORY = "category";
         public static final String COLUMN_NAME_COMPANY = "company";
         public static final String COLUMN_NAME_PLAYER_ID = "player_id";

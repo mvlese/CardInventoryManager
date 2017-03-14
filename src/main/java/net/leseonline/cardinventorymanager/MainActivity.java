@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mPhotoFile = new File(filesDir, "image.jpg");
 
         // TODO mvl - Delete this and the "next uniqueId" code when necessary.
-//        deleteDatabase(DatabaseHelper.DATABASE_NAME);
+        deleteDatabase(DatabaseHelper.DATABASE_NAME);
 //        int n = mDatabaseHelper.getNextUniqueid();
 //        Log.d(TAG, String.valueOf(n));
 //        n = mDatabaseHelper.getNextUniqueid();
@@ -109,8 +109,12 @@ public class MainActivity extends AppCompatActivity {
                 if (canTakePhoto) {
                     // This uniqueId will be used to form the image file names.
                     mCardUniqueId = mDatabaseHelper.getNextUniqueid();
-                    mCameraState = CameraState.CAPTURE_FRONT;
-                    captureImage(captureImage, mCardUniqueId, true);
+                    if (mCardUniqueId == -1) {
+                        // TODO mvl - Handle this error.
+                    } else {
+                        mCameraState = CameraState.CAPTURE_FRONT;
+                        captureImage(captureImage, mCardUniqueId, true);
+                    }
                 }
             }
         });

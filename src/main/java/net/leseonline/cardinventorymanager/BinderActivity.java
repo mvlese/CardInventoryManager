@@ -2,25 +2,38 @@ package net.leseonline.cardinventorymanager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class BinderActivity extends AppCompatActivity {
     private int mDisplayWidth;
     private int mDisplayHeight;
     private int mStatusBarHeight;
     private int mRequiredHeight;
+    private int mColumnWidth;
+    private int mColumnHeight;
     private GridView mGridView;
+    private GestureDetectorCompat mDetector;
+    private String[] mStrArr;
 
     private static int Width = 586;
     private static int Height = 784;
@@ -58,23 +71,32 @@ public class BinderActivity extends AppCompatActivity {
 
         mGridView.setNumColumns(column);// set your  column number what you want
         int arrSize = column * column ;
-        String[] str_arr = new String[arrSize];
+        mStrArr = new String[arrSize];
         for(int i = 0; i < arrSize; i++){
-            str_arr[i] = String.valueOf(i);
+            mStrArr[i] = String.valueOf(i);
         }
-        int column_width = mDisplayWidth / column ;
-        int column_height = mRequiredHeight / column ;
-        mGridView.setAdapter(new ImageAdapter(this, str_arr,column_width,column_height));
+        mColumnWidth = mDisplayWidth / column ;
+        mColumnHeight = mRequiredHeight / column ;
+        mGridView.setAdapter(new ImageAdapter(this, mStrArr, mColumnWidth, mColumnHeight));
         enableDisableView(mGridView, false);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+//        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
-            }
-        });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        this.mDetector.onTouchEvent(event);
+        Log.d("Gestures", "onTouch: " + event.toString());
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -109,5 +131,35 @@ public class BinderActivity extends AppCompatActivity {
         styledAttributes.recycle();
 
         return result + mActionBarSize;
+    }
+
+    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+        private static final String DEBUG_TAG = "Gestures";
+
+        @Override
+        public boolean onDown(MotionEvent event) {
+            Log.d(DEBUG_TAG, "onDown: " + event.toString());
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2,
+                               float velocityX, float velocityY) {
+            final int MIN_DELTA = 100;
+            Log.d(DEBUG_TAG, "onFling: " + event1.toString() + event2.toString());
+            float x1 = event1.getX();
+            float x2 = event2.getX();
+            float delta = x1 - x2;
+            if (Math.abs(delta) > MIN_DELTA) {
+                if (x1 > x2) {
+                    // swipe left, next
+                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, mStrArr, mColumnWidth, mColumnHeight));
+                } else {
+                    // swipe right, prev
+                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, mStrArr, mColumnWidth, mColumnHeight));
+                }
+            }
+            return true;
+        }
     }
 }

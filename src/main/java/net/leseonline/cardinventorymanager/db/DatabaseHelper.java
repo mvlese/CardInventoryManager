@@ -136,6 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         try {
             ContentValues values = new ContentValues();
+            values.put(CardsContract.CardsEntry.COLUMN_NAME_UNIQUE_ID, card.getUniqueId());
             values.put(CardsContract.CardsEntry.COLUMN_NAME_CATEGORY, card.getCategoryName());
             values.put(CardsContract.CardsEntry.COLUMN_NAME_COMPANY, card.getCategoryName());
 //            values.put(CardsContract.CardsEntry.COLUMN_NAME_PLAYER_ID, playerId);

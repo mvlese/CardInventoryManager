@@ -110,19 +110,27 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             public void onClick(View v) {
 
                 // Toast.makeText(MainActivity.this.getApplicationContext(), "Capture an Image", Toast.LENGTH_SHORT).show();
-//                Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
-//                startActivity(captureIntent);
-                final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                boolean canTakePhoto = (captureImage.resolveActivity(getPackageManager()) != null);
-                if (canTakePhoto) {
-                    // This uniqueId will be used to form the image file names.
-                    mCardUniqueId = mDatabaseHelper.getNextUniqueid();
-                    if (mCardUniqueId == -1) {
-                        // TODO mvl - Handle this error.
-                    } else {
-                        mCameraState = CameraState.CAPTURE_FRONT;
-                        captureImage(captureImage, mCardUniqueId, true);
-                    }
+                // This uniqueId will be used to form the image file names.
+                mCardUniqueId = mDatabaseHelper.getNextUniqueid();
+                if (mCardUniqueId == -1) {
+
+                } else {
+//                    Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
+                    Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), AndroidCameraApi.class);
+                    MainActivity.this.startActivity(captureIntent);
+                    //captureImage(captureIntent, mCardUniqueId, true);
+//                final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                boolean canTakePhoto = (captureImage.resolveActivity(getPackageManager()) != null);
+//                if (canTakePhoto) {
+//                    // This uniqueId will be used to form the image file names.
+//                    mCardUniqueId = mDatabaseHelper.getNextUniqueid();
+//                    if (mCardUniqueId == -1) {
+//                        // TODO mvl - Handle this error.
+//                    } else {
+//                        mCameraState = CameraState.CAPTURE_FRONT;
+//                        captureImage(captureImage, mCardUniqueId, true);
+//                    }
+//                }
                 }
             }
         });
@@ -294,19 +302,19 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         String pre = isFront ? "IMGF_" : "IMGB_";
         mPhotoFile = new File(filesDir, pre + String.valueOf(mCardUniqueId) + ".jpg");
 
-        Uri uri = FileProvider.getUriForFile(this,
-                "net.leseonline.fileprovider",
-                MainActivity.this.mPhotoFile);
-        captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-        List<ResolveInfo> cameraActivities = this
-                .getPackageManager().queryIntentActivities(captureImage,
-                        PackageManager.MATCH_DEFAULT_ONLY);
-
-        for (ResolveInfo activity : cameraActivities) {
-            this.grantUriPermission(activity.activityInfo.packageName,
-                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        }
+//        Uri uri = FileProvider.getUriForFile(this,
+//                "net.leseonline.fileprovider",
+//                MainActivity.this.mPhotoFile);
+//        captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//
+//        List<ResolveInfo> cameraActivities = this
+//                .getPackageManager().queryIntentActivities(captureImage,
+//                        PackageManager.MATCH_DEFAULT_ONLY);
+//
+//        for (ResolveInfo activity : cameraActivities) {
+//            this.grantUriPermission(activity.activityInfo.packageName,
+//                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//        }
 
         startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
     }

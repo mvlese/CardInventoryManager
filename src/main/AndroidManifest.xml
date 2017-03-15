@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera2.full" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -28,6 +29,13 @@
         </activity>
         <activity
             android:name=".CaptureActivity"
+            android:label="@string/title_activity_capture"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".AndroidCameraApi"
             android:label="@string/title_activity_capture"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

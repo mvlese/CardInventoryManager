@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera2.full" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -34,6 +35,12 @@
         </activity>
         <activity
             android:name="net.leseonline.cardinventorymanager.CaptureActivity"
+            android:label="@string/title_activity_capture"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name="net.leseonline.cardinventorymanager.AndroidCameraApi"
             android:label="@string/title_activity_capture"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >

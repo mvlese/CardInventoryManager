@@ -360,6 +360,7 @@
     <string name="sort_order">Sort Order</string>
     <string name="sound">Sound</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="take_picture">Take Picture</string>
     <string name="team_name">Team Name</string>
     <string name="team_name_hint">Team Name</string>
     <string name="title_activity_binder">Card Inventory Manager</string>

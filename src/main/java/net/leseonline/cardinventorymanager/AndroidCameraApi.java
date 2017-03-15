@@ -31,6 +31,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,10 +66,17 @@ public class AndroidCameraApi extends AppCompatActivity {
     private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
+    private int mUniqueCardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // If MIN_VALUE, it is bad.  If it is negative, it is the back, else the front.
+        mUniqueCardId = getIntent().getIntExtra(getResources().getString(R.string.extra_unique_id), Integer.MIN_VALUE);
+        TextView tv = (TextView)findViewById(R.id.text_view_heading);
+        tv.setText((mUniqueCardId > 0) ? "Capture Front" : "Capture Back");
+
         setContentView(R.layout.activity_camera2);
         textureView = (TextureView) findViewById(R.id.texture);
         assert textureView != null;
@@ -175,37 +183,38 @@ public class AndroidCameraApi extends AppCompatActivity {
             // Orientation
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
-            final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+            //final File file = new File(Environment.getExternalStorageDirectory()+"/pic.jpg");
+            final File file = getImageFile();
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
-//                    Image image = null;
-//                    try {
-//                        image = reader.acquireLatestImage();
-//                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-//                        byte[] bytes = new byte[buffer.capacity()];
-//                        buffer.get(bytes);
-//                        save(bytes);
-//                    } catch (FileNotFoundException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } finally {
-//                        if (image != null) {
-//                            image.close();
-//                        }
-//                    }
+                    Image image = null;
+                    try {
+                        image = reader.acquireLatestImage();
+                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                        byte[] bytes = new byte[buffer.capacity()];
+                        buffer.get(bytes);
+                        save(bytes);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (image != null) {
+                            image.close();
+                        }
+                    }
                 }
                 private void save(byte[] bytes) throws IOException {
-//                    OutputStream output = null;
-//                    try {
-//                        output = new FileOutputStream(file);
-//                        output.write(bytes);
-//                    } finally {
-//                        if (null != output) {
-//                            output.close();
-//                        }
-//                    }
+                    OutputStream output = null;
+                    try {
+                        output = new FileOutputStream(file);
+                        output.write(bytes);
+                    } finally {
+                        if (null != output) {
+                            output.close();
+                        }
+                    }
                 }
             };
             reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
@@ -233,6 +242,13 @@ public class AndroidCameraApi extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    private File getImageFile() {
+        File filesDir = this.getFilesDir();
+        String pre = (mUniqueCardId > 0) ? "IMGF_" : "IMGB_";
+        File photoFile = new File(filesDir, pre + String.valueOf(Math.abs(mUniqueCardId)) + ".jpg");
+        return photoFile;
     }
 
     protected void createCameraPreview() {

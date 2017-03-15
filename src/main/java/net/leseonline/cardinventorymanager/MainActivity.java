@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
     private ImageButton settingsViewButton;
     private DatabaseHelper mDatabaseHelper;
     private int mCardUniqueId;
-    private final int TAKE_PICTURE_REQUEST = 7;
-    private final int CAPTURE_DATA_REQUEST = 6;
-    private final String TAG = "MainActivity";
+    private final static int TAKE_PICTURE_REQUEST = 7;
+    private final static int CAPTURE_DATA_REQUEST = 6;
+    private final static String TAG = "MainActivity";
     private File mPhotoFile;
     NumberFormat mMoneyFormatter = NumberFormat.getCurrencyInstance();
 
@@ -115,9 +115,8 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                 if (mCardUniqueId == -1) {
 
                 } else {
+                    captureImage(true);
 //                    Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
-                    Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), AndroidCameraApi.class);
-                    MainActivity.this.startActivity(captureIntent);
                     //captureImage(captureIntent, mCardUniqueId, true);
 //                final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                boolean canTakePhoto = (captureImage.resolveActivity(getPackageManager()) != null);
@@ -209,8 +208,9 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                     case CAPTURE_FRONT:
                         revokeWriteUriPermission();
                         mCameraState = CameraState.CAPTURE_BACK;
-                        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        captureImage(captureImage, mCardUniqueId, false);
+                        //final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        //captureImage(captureImage, mCardUniqueId, false);
+                        captureImage(false);
                         break;
                     case CAPTURE_BACK:
                         mCameraState = CameraState.CAPTURE_DATA;
@@ -297,11 +297,12 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         ((TextView)findViewById(R.id.text_value_main)).setText(sValue);
     }
 
-    private void captureImage(Intent captureImage, int uniqueId, boolean isFront) {
-        File filesDir = this.getFilesDir();
-        String pre = isFront ? "IMGF_" : "IMGB_";
-        mPhotoFile = new File(filesDir, pre + String.valueOf(mCardUniqueId) + ".jpg");
-
+    private void captureImage(boolean isFront) {
+//    private void captureImage(Intent captureImage, int uniqueId, boolean isFront) {
+//        File filesDir = this.getFilesDir();
+//        String pre = isFront ? "IMGF_" : "IMGB_";
+//        mPhotoFile = new File(filesDir, pre + String.valueOf(mCardUniqueId) + ".jpg");
+//
 //        Uri uri = FileProvider.getUriForFile(this,
 //                "net.leseonline.fileprovider",
 //                MainActivity.this.mPhotoFile);
@@ -315,8 +316,12 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 //            this.grantUriPermission(activity.activityInfo.packageName,
 //                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 //        }
+//        startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
 
-        startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
+        Intent intent = new Intent(getApplicationContext(), AndroidCameraApi.class);
+        int extraData = isFront ? mCardUniqueId : -mCardUniqueId;
+        intent.putExtra(getResources().getString(R.string.extra_unique_id), extraData);
+        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
     }
 
     private void revokeWriteUriPermission() {

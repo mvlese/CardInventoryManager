@@ -21,12 +21,14 @@ import android.view.MenuItem;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  AdminPwDialogFragment.IAdminPwDialogListener {
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
     private final int CAPTURE_DATA_REQUEST = 6;
     private final String TAG = "MainActivity";
     private File mPhotoFile;
+    NumberFormat mMoneyFormatter = NumberFormat.getCurrencyInstance();
 
     private enum CameraState {
         CAPTURE_IDLE,
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mCardUniqueId = -1;
+        mMoneyFormatter = NumberFormat.getCurrencyInstance();
 
         File filesDir = this.getFilesDir();
         mPhotoFile = new File(filesDir, "image.jpg");
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 //        Log.d(TAG, String.valueOf(n));
 //        n = mDatabaseHelper.getNextUniqueid();
 //        Log.d(TAG, String.valueOf(n));
+
+        setValueText();
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -244,6 +250,8 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             if (resultCode == RESULT_OK) {
                 BaseballCard card = CaptureDataActivity.getCard();
                 Log.d(TAG, card.toString());
+                mDatabaseHelper.addCard(card);
+                setValueText();
             } else if (resultCode == RESULT_CANCELED) {
 
             }
@@ -266,12 +274,19 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                 message = "Failed to detroy DB and/or delete files.";
             }
             Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+            setValueText();
         }
     }
 
     @Override
     public void onAdminPwDialogNegativeAction(AdminPwDialogFragment dialog) {
 
+    }
+
+    private void setValueText() {
+        float collectionValue = mDatabaseHelper.getCollectionValue();
+        String sValue = mMoneyFormatter.format(collectionValue);
+        ((TextView)findViewById(R.id.text_value_main)).setText(sValue);
     }
 
     private void captureImage(Intent captureImage, int uniqueId, boolean isFront) {

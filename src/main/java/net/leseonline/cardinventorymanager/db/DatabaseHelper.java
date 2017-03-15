@@ -636,6 +636,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         setSwichState(CardsContract.EffectsStates.TABLE_NAME, values, whereClause, resId);
     }
 
+    public float getCollectionValue() {
+        float value = 0.0F;
+        String sql = "select sum(" + CardsContract.CardsEntry.COLUMN_NAME_VALUE + ") from " +
+                CardsContract.CardsEntry.TABLE_NAME;
+        SQLiteDatabase db = null;
+        try {
+            int count = 0;
+            db = this.getReadableDatabase();
+            Cursor c = db.rawQuery(sql, null);
+            if (c.moveToNext()) {
+                value = c.getFloat(0);
+            }
+            c.close();
+        } catch(Exception ex) {
+        } finally {
+            try {
+                db.close();
+            }catch (Exception ex) {
+            }
+        }
+
+        return value;
+    }
+
     private static final String CREATE_TABLE_CARDS = "CREATE TABLE " +
             CardsContract.CardsEntry.TABLE_NAME + "(" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +

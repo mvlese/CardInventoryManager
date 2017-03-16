@@ -18,11 +18,13 @@
     <string name="value_hint">Value</string>
     <string name="year_hint">Year</string>
     <string name="notes_hint">Notes</string>
-    <string name="capture_image_header">Enter the Card Data Below</string>
+    <string name="capture_image_header">Enter the Card Data</string>
+    <string name="search_header">Enter Search Data</string>
     <string name="cancel_button">Cancel</string>
     <string name="ok_button">OK</string>
     <string name="enter_notes_button">Notes...</string>
     <string name="save_button">Save</string>
+    <string name="search_button">Search</string>
     <string name="add_notes_title">Add Card Notes</string>
     <string name="add_notes_hints">Notes</string>
     <string name="extra_unique_id">net.leseonline.extra_unique_id</string>
@@ -48,4 +50,11 @@
     <string name="mine">yomomma</string>
 
     <string name="take_picture">Take Picture</string>
+
+    <string name="clear">Clear</string>
+    <string name="search_first_name_hint">First Name  (use * for wildcard)</string>
+    <string name="search_last_name_hint">Last Name  (use * for wildcard)</string>
+    <string name="search_team_name_hint">Team Name  (use * for wildcard)</string>
+    <string name="search_company_hint">Company  (use * for wildcard)</string>
+
 </resources>

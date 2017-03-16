@@ -46,6 +46,8 @@ import java.util.List;
 public class AndroidCameraApi extends AppCompatActivity {
     private static final String TAG = "AndroidCameraApi";
     private ImageButton takePictureButton;
+    private ImageButton cancelPictureButton;
+    private ImageButton commitPictureButton;
     private TextureView textureView;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
@@ -71,13 +73,13 @@ public class AndroidCameraApi extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_camera2);
 
         // If MIN_VALUE, it is bad.  If it is negative, it is the back, else the front.
         mUniqueCardId = getIntent().getIntExtra(getResources().getString(R.string.extra_unique_id), Integer.MIN_VALUE);
         TextView tv = (TextView)findViewById(R.id.text_view_heading);
         tv.setText((mUniqueCardId > 0) ? "Capture Front" : "Capture Back");
 
-        setContentView(R.layout.activity_camera2);
         textureView = (TextureView) findViewById(R.id.texture);
         assert textureView != null;
         textureView.setSurfaceTextureListener(textureListener);
@@ -87,6 +89,24 @@ public class AndroidCameraApi extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takePicture();
+            }
+        });
+
+        cancelPictureButton = (ImageButton)findViewById(R.id.btn_cancel_picture);
+        cancelPictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
+
+        commitPictureButton = (ImageButton)findViewById(R.id.btn_commit_picture);
+        commitPictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_OK);
+                finish();
             }
         });
     }
@@ -124,7 +144,11 @@ public class AndroidCameraApi extends AppCompatActivity {
         }
         @Override
         public void onError(CameraDevice camera, int error) {
-            cameraDevice.close();
+            try {
+                cameraDevice.close();
+            } catch(Exception ex) {
+
+            }
             cameraDevice = null;
         }
     };
@@ -167,8 +191,8 @@ public class AndroidCameraApi extends AppCompatActivity {
             if (characteristics != null) {
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
             }
-            int width = 500;
-            int height = 700;
+            int width = 250;
+            int height = 350;
             if (jpegSizes != null && 0 < jpegSizes.length) {
                 width = jpegSizes[0].getWidth();
                 height = jpegSizes[0].getHeight();
@@ -222,8 +246,11 @@ public class AndroidCameraApi extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    Toast.makeText(AndroidCameraApi.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
-                    createCameraPreview();
+//                    Toast.makeText(AndroidCameraApi.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
+                    closeCamera();
+                    setResult(RESULT_OK);
+                    finish();
+//                    createCameraPreview();
                 }
             };
             cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
@@ -235,6 +262,7 @@ public class AndroidCameraApi extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+
                 @Override
                 public void onConfigureFailed(CameraCaptureSession session) {
                 }

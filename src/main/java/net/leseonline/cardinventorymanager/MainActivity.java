@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
     private ImageButton cameraViewButton;
     private ImageButton settingsViewButton;
     private DatabaseHelper mDatabaseHelper;
-    private int mCardUniqueId;
+    private int mUniqueCardId;
     private final static int TAKE_PICTURE_REQUEST = 7;
     private final static int CAPTURE_DATA_REQUEST = 6;
     private final static String TAG = "MainActivity";
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mCardUniqueId = -1;
+        mUniqueCardId = -1;
         mMoneyFormatter = NumberFormat.getCurrencyInstance();
 
         File filesDir = this.getFilesDir();
@@ -111,10 +112,11 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 
                 // Toast.makeText(MainActivity.this.getApplicationContext(), "Capture an Image", Toast.LENGTH_SHORT).show();
                 // This uniqueId will be used to form the image file names.
-                mCardUniqueId = mDatabaseHelper.getNextUniqueid();
-                if (mCardUniqueId == -1) {
-
+                mUniqueCardId = mDatabaseHelper.getNextUniqueid();
+                if (mUniqueCardId == -1) {
+                    Toast.makeText(MainActivity.this.getApplicationContext(), "Failed to get unique id.", Toast.LENGTH_SHORT).show();
                 } else {
+                    mCameraState = CameraState.CAPTURE_FRONT;
                     captureImage(true);
 //                    Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
                     //captureImage(captureIntent, mCardUniqueId, true);
@@ -215,10 +217,8 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                     case CAPTURE_BACK:
                         mCameraState = CameraState.CAPTURE_DATA;
                         revokeWriteUriPermission();
-                        Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath());
-                        int width = bitmap.getWidth();
                         Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
-                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mCardUniqueId);
+                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
                         startActivityForResult(intent, CAPTURE_DATA_REQUEST);
                         break;
                     case CAPTURE_DATA:
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                         break;
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(MainActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
                 // Do something else
                 // If CAPTURE_FRONT, then change state to CAPTURE_IDLE.
                 // If CAPTURE_BACK, then prompt to keep front.  If keep front, save front, CHANGE_STATE to CAPTURE_DATA.
@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 //        startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
 
         Intent intent = new Intent(getApplicationContext(), AndroidCameraApi.class);
-        int extraData = isFront ? mCardUniqueId : -mCardUniqueId;
+        int extraData = isFront ? mUniqueCardId : -mUniqueCardId;
         intent.putExtra(getResources().getString(R.string.extra_unique_id), extraData);
         startActivityForResult(intent, TAKE_PICTURE_REQUEST);
     }
@@ -357,4 +357,12 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             }
         }
     }
+
+    private File getImageFile() {
+        File filesDir = this.getFilesDir();
+        String pre = (mUniqueCardId > 0) ? "IMGF_" : "IMGB_";
+        File photoFile = new File(filesDir, pre + String.valueOf(Math.abs(mUniqueCardId)) + ".jpg");
+        return photoFile;
+    }
+
 }

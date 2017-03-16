@@ -588,7 +588,7 @@ public final class R {
 		public static final int abc_textfield_search_material = 0x7f02004a;
 		public static final int design_fab_background = 0x7f020060;
 		public static final int design_snackbar_background = 0x7f020061;
-		public static final int notification_template_icon_bg = 0x7f020069;
+		public static final int notification_template_icon_bg = 0x7f02006a;
 	}
 	public static final class id {
 		public static final int action0 = 0x7f0d00b8;
@@ -774,10 +774,10 @@ public final class R {
 		public static final int notification_template_media = 0x7f040040;
 		public static final int notification_template_part_chronometer = 0x7f040041;
 		public static final int notification_template_part_time = 0x7f040042;
-		public static final int select_dialog_item_material = 0x7f040043;
-		public static final int select_dialog_multichoice_material = 0x7f040044;
-		public static final int select_dialog_singlechoice_material = 0x7f040045;
-		public static final int support_simple_spinner_dropdown_item = 0x7f040046;
+		public static final int select_dialog_item_material = 0x7f040044;
+		public static final int select_dialog_multichoice_material = 0x7f040045;
+		public static final int select_dialog_singlechoice_material = 0x7f040046;
+		public static final int support_simple_spinner_dropdown_item = 0x7f040047;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f070000;
@@ -799,9 +799,9 @@ public final class R {
 		public static final int abc_shareactionprovider_share_with = 0x7f070010;
 		public static final int abc_shareactionprovider_share_with_application = 0x7f070011;
 		public static final int abc_toolbar_collapse_description = 0x7f070012;
-		public static final int appbar_scrolling_view_behavior = 0x7f070038;
-		public static final int bottom_sheet_behavior = 0x7f07003c;
-		public static final int character_counter_pattern = 0x7f070040;
+		public static final int appbar_scrolling_view_behavior = 0x7f070039;
+		public static final int bottom_sheet_behavior = 0x7f07003d;
+		public static final int character_counter_pattern = 0x7f070041;
 		public static final int status_bar_notification_info_overflow = 0x7f070031;
 	}
 	public static final class style {

@@ -32,7 +32,7 @@ import java.io.FileFilter;
 import java.text.NumberFormat;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements  AdminPwDialogFragment.IAdminPwDialogListener {
+public class MainActivity extends AppCompatActivity implements  AdminPwDialogFragment.IAdminPwDialogListener, SearchDialogFragment.ISearchDialogListener {
     private Vibrator myVib;
     private ImageButton singleViewButton;
     private ImageButton binderViewButton;
@@ -190,6 +190,10 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             dialogFragment.show(fm, "EnterAdminPw");
 
             return true;
+        } else if (id == R.id.action_search) {
+            FragmentManager fm = getFragmentManager();
+            SearchDialogFragment dialogFragment = new SearchDialogFragment();
+            dialogFragment.show(fm, "Search");
         }
 
         return super.onOptionsItemSelected(item);
@@ -288,6 +292,16 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 
     @Override
     public void onAdminPwDialogNegativeAction(AdminPwDialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onSearchDialogPositiveAction(SearchDialogFragment dialog) {
+        Toast.makeText(MainActivity.this, "Searching...", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSearchDialogNegativeAction(SearchDialogFragment dialog) {
 
     }
 

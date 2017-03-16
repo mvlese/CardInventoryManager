@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/capture_cancel_button"
+                android:id="@+id/cancel_button"
                 android:text="@string/cancel_button"
                 android:backgroundTint="#f64848"/>
             <Button

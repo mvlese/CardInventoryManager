@@ -168,6 +168,10 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\aperature2.png"
     },
     {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\search.png",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\search.png"
+    },
+    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\binder.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\binder.jpg"
     },

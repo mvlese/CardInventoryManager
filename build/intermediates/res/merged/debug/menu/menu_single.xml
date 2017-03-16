@@ -7,7 +7,7 @@
         android:id="@+id/action_rotate"
         android:orderInCategory="100"
         android:title="Rotate"
-        android:icon="@drawable/rotate2"
+        android:icon="@android:drawable/ic_menu_rotate"
         app:showAsAction="always" />
 
 </menu>

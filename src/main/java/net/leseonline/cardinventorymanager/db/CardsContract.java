@@ -95,4 +95,15 @@ public class CardsContract {
         public static final String COLUMN_NAME_SORT_ENABLED = "sort_enabled";
         public static final String COLUMN_NAME_IS_DESC = "is_desc";
     }
+
+    public static abstract class SearchModel implements BaseColumns {
+        public static final String TABLE_NAME = "search_model";
+        public static final String COLUMN_NAME_FIRST_NAME = "first_name";
+        public static final String COLUMN_NAME_LAST_NAME = "last_name";
+        public static final String COLUMN_NAME_TEAM_NAME = "team_name";
+        public static final String COLUMN_NAME_COMPANY = "company";
+        public static final String COLUMN_NAME_YEAR = "year";
+        public static final String COLUMN_NAME_CONDITION = "condition";
+        public static final String COLUMN_NAME_POSITION = "position";
+    }
 }

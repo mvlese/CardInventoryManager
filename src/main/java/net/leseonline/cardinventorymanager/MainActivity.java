@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             FragmentManager fm = getFragmentManager();
             SearchDialogFragment dialogFragment = new SearchDialogFragment();
             dialogFragment.show(fm, "Search");
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -297,12 +298,13 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 
     @Override
     public void onSearchDialogPositiveAction(SearchDialogFragment dialog) {
-        Toast.makeText(MainActivity.this, "Searching...", Toast.LENGTH_SHORT).show();
+        SearchModel model = dialog.getSearchModel();
+        mDatabaseHelper.saveSearchModel(model);
     }
 
     @Override
     public void onSearchDialogNegativeAction(SearchDialogFragment dialog) {
-
+        // do nothing
     }
 
     private void setValueText() {

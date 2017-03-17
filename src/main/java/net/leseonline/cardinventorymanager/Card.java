@@ -102,6 +102,11 @@ public abstract class Card {
             return mText;
         }
 
+        @Override
+        public String toString() {
+            return mText;
+        }
+
         public static String[] getTextValues() {
             Condition[] values = Condition.values();
             String[] texts = new String[values.length];
@@ -118,6 +123,19 @@ public abstract class Card {
                 codes[n] = values[n].getCode();
             }
             return codes;
+        }
+
+        public static Condition fromCode(int code) {
+            Condition result = Condition.None;
+            Condition[] values = Condition.values();
+            int n = 0;
+            while (n < values.length && result == Condition.None) {
+                if (values[n].getCode() == code) {
+                    result = values[n];
+                }
+                n++;
+            }
+            return  result;
         }
     }
 }

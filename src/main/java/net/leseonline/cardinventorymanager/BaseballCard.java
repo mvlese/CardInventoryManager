@@ -70,6 +70,11 @@ public class BaseballCard extends SportsCard {
             return mText;
         }
 
+        @Override
+        public String toString() {
+            return mText;
+        }
+
         public static String[] getTextValues() {
             Position[] values = Position.values();
             String[] texts = new String[values.length];
@@ -87,6 +92,20 @@ public class BaseballCard extends SportsCard {
             }
             return codes;
         }
+
+        public static Position fromCode(int code) {
+            Position result = Position.None;
+            Position[] values = Position.values();
+            int n = 0;
+            while (n < values.length && result == Position.None) {
+                if (values[n].getCode() == code) {
+                    result = values[n];
+                }
+                n++;
+            }
+            return  result;
+        }
+
     }
 
 }

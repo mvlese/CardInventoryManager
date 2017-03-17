@@ -1,5 +1,6 @@
 package net.leseonline.cardinventorymanager;
 
+import android.app.FragmentManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,18 +12,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class SingleCardActivity extends AppCompatActivity {
+public class SingleCardActivity extends AppCompatActivity implements SearchDialogFragment.ISearchDialogListener {
     private GestureDetectorCompat mDetector;
     private ArrayList<Integer> mIndices;
     private int mCurrentIndex;
     private Bitmap[] mBitmaps;
+    private DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class SingleCardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mIndices = new ArrayList<>();
         mCurrentIndex = 0;
+        mDatabaseHelper = new DatabaseHelper(this);
 
         mBitmaps = new Bitmap[] {
                 BitmapFactory.decodeResource(getResources(), R.drawable.bc1),
@@ -71,6 +78,37 @@ public class SingleCardActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_single, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_rotate) {
+            return true;
+        } else if (id == R.id.action_search) {
+            FragmentManager fm = getFragmentManager();
+            SearchDialogFragment dialogFragment = new SearchDialogFragment();
+            dialogFragment.show(fm, "Search");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSearchDialogPositiveAction(SearchDialogFragment dialog) {
+        SearchModel model = dialog.getSearchModel();
+        mDatabaseHelper.saveSearchModel(model);
+    }
+
+    @Override
+    public void onSearchDialogNegativeAction(SearchDialogFragment dialog) {
+        // do nothing
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {

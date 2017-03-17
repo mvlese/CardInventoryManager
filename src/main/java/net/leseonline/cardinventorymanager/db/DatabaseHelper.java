@@ -10,6 +10,7 @@ import net.leseonline.cardinventorymanager.BaseballCard;
 import net.leseonline.cardinventorymanager.Card;
 import net.leseonline.cardinventorymanager.EffectState;
 import net.leseonline.cardinventorymanager.R;
+import net.leseonline.cardinventorymanager.SearchModel;
 import net.leseonline.cardinventorymanager.SortOrder;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL(CREATE_TABLE_CARD_SEQUENCE);
         db.execSQL(CREATE_TABLE_EFFECT_STATES);
         db.execSQL(CREATE_TABLE_SORT_ORDERS);
+        db.execSQL(CREATE_TABLE_SEARCH_MODEL);
 
         // Fill effect states;
         EffectState es = new EffectState();
@@ -124,6 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL("DROP TABLE IF EXISTS " + CardsContract.CardSequence.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CardsContract.EffectsStates.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + CardsContract.SortOrders.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + CardsContract.SearchModel.TABLE_NAME);
 
         onCreate(db);
     }
@@ -660,6 +663,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return value;
     }
 
+    public void saveSearchModel(SearchModel model) {
+        SQLiteDatabase db = null;
+        try {
+            db = this.getWritableDatabase();
+            db.beginTransaction();
+            int rowsAffected = db.delete(CardsContract.SearchModel.TABLE_NAME, null, null);
+
+            // insert new values
+            ContentValues values = new ContentValues();
+            values.put(CardsContract.SearchModel.COLUMN_NAME_FIRST_NAME, model.getFirstName());
+            values.put(CardsContract.SearchModel.COLUMN_NAME_LAST_NAME, model.getLastName());
+            values.put(CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME, model.getTeamName());
+            values.put(CardsContract.SearchModel.COLUMN_NAME_COMPANY, model.getCompany());
+            values.put(CardsContract.SearchModel.COLUMN_NAME_YEAR, model.getYear());
+
+            int conditionCode = model.getCondition().getCode();
+            values.put(CardsContract.SearchModel.COLUMN_NAME_CONDITION, conditionCode);
+
+            int positionCode = model.getPosition().getCode();
+            values.put(CardsContract.SearchModel.COLUMN_NAME_POSITION, positionCode);
+
+            db.insert(CardsContract.SearchModel.TABLE_NAME, null, values);
+
+            db.setTransactionSuccessful();
+        }catch (Exception ex) {
+            String s = ex.getMessage();
+        } finally {
+            try {
+                db.endTransaction();
+                db.close();
+            }catch (Exception ex) {
+            }
+        }
+
+    }
+
+    public SearchModel getSearchModel() {
+        SearchModel model = new SearchModel();
+        String[] columns = new String[] {
+            CardsContract.SearchModel.COLUMN_NAME_FIRST_NAME,
+            CardsContract.SearchModel.COLUMN_NAME_LAST_NAME,
+            CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME,
+            CardsContract.SearchModel.COLUMN_NAME_COMPANY,
+            CardsContract.SearchModel.COLUMN_NAME_YEAR,
+            CardsContract.SearchModel.COLUMN_NAME_CONDITION,
+            CardsContract.SearchModel.COLUMN_NAME_POSITION
+        };
+        SQLiteDatabase db = null;
+        try {
+            int count = 0;
+            db = this.getReadableDatabase();
+            Cursor c = db.query(CardsContract.SearchModel.TABLE_NAME, columns, null, null, null, null, null);
+            if (c.moveToNext()) {
+                model.setFirstName(c.getString(0));
+                model.setLastName(c.getString(1));
+                model.setTeamName(c.getString(2));
+                model.setCompany(c.getString(3));
+                model.setYear(c.getInt(4));
+                int conditionCode = c.getInt(5);
+                model.setCondition(Card.Condition.fromCode(conditionCode));
+
+                int positionCode = c.getInt(6);
+                model.setPosition(BaseballCard.Position.fromCode(positionCode));
+            }
+            c.close();
+        } catch(Exception ex) {
+        } finally {
+            try {
+                db.close();
+            }catch (Exception ex) {
+            }
+        }
+
+        return model;
+    }
+
     private static final String CREATE_TABLE_CARDS = "CREATE TABLE " +
             CardsContract.CardsEntry.TABLE_NAME + "(" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
@@ -725,5 +804,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CardsContract.SortOrders.COLUMN_NAME_SORT_ORDER + " INT, " +
             CardsContract.SortOrders.COLUMN_NAME_SORT_ENABLED + " BOOLEAN, " +
             CardsContract.SortOrders.COLUMN_NAME_IS_DESC + " BOOLEAN)";
+
+    private static final String CREATE_TABLE_SEARCH_MODEL = "CREATE TABLE " +
+            CardsContract.SearchModel.TABLE_NAME + "(" +
+            CardsContract.SearchModel.COLUMN_NAME_FIRST_NAME + " TEXT, " +
+            CardsContract.SearchModel.COLUMN_NAME_LAST_NAME + " TEXT, " +
+            CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME + " TEXT, " +
+            CardsContract.SearchModel.COLUMN_NAME_COMPANY + " TEXT, " +
+            CardsContract.SearchModel.COLUMN_NAME_YEAR + " INT, " +
+            CardsContract.SearchModel.COLUMN_NAME_CONDITION + " INT, " +
+            CardsContract.SearchModel.COLUMN_NAME_POSITION + " INT)";
 
 }

@@ -4,6 +4,12 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="net.leseonline.cardinventorymanager.SingleCardActivity">
     <item
+        android:id="@+id/action_search"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/action_search"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_rotate"
         android:orderInCategory="100"
         android:title="Rotate"

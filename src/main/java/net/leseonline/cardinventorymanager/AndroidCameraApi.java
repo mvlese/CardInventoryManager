@@ -101,14 +101,6 @@ public class AndroidCameraApi extends AppCompatActivity {
             }
         });
 
-        commitPictureButton = (ImageButton)findViewById(R.id.btn_commit_picture);
-        commitPictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        });
     }
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {

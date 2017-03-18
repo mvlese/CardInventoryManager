@@ -2,9 +2,11 @@ package net.leseonline.cardinventorymanager;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -37,6 +40,7 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
     private int mUniqueCardId;
     private boolean mIsFront;
     private final static int CAPTURE_DATA_REQUEST = 6;
+    private final MediaPlayer mMediaPlayer = new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,7 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
 
     private void showCard() {
         ImageView iv = (ImageView) findViewById(R.id.single_card_view);
+        iv.setSoundEffectsEnabled(true);
         TextView tv = (TextView)findViewById(R.id.text_view_single);
         boolean isFound = false;
         if (ids.size() > 0) {
@@ -180,6 +185,25 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
         }
     }
 
+    private void playPageFlip() {
+        if(mMediaPlayer.isPlaying())
+        {
+            mMediaPlayer.stop();
+        }
+
+        try {
+            mMediaPlayer.reset();
+            AssetFileDescriptor afd = getAssets().openFd("page-flip-4.mp3");
+            mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         private static final String DEBUG_TAG = "Gestures";
 
@@ -205,6 +229,7 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
             float x2 = event2.getX();
             float delta = x1 - x2;
             if (Math.abs(delta) > MIN_DELTA) {
+                playPageFlip();
                 if (x1 > x2) {
                     // swipe left, next
                     mCurrentIndex = (mCurrentIndex + 1) % ids.size();

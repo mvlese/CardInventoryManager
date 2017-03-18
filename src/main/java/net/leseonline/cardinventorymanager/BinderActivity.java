@@ -2,9 +2,11 @@ package net.leseonline.cardinventorymanager;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BinderActivity extends AppCompatActivity implements SearchDialogFragment.ISearchDialogListener {
@@ -45,6 +48,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
     private static int LeftOffset = 130;
     private static int TopOffset = 30;
     private static int RightTickMark = 558;
+    private final MediaPlayer mMediaPlayer = new MediaPlayer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         mColumnHeight = mRequiredHeight / column ;
         mGridView.setAdapter(new ImageAdapter(this, mStrArr, mColumnWidth, mColumnHeight));
         enableDisableView(mGridView, false);
+        mGridView.setSoundEffectsEnabled(true);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -178,6 +183,25 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         // do nothing
     }
 
+    private void playPageFlip() {
+        if(mMediaPlayer.isPlaying())
+        {
+            mMediaPlayer.stop();
+        }
+
+        try {
+            mMediaPlayer.reset();
+            AssetFileDescriptor afd = getAssets().openFd("page-flip-4.mp3");
+            mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         private static final String DEBUG_TAG = "Gestures";
 
@@ -196,6 +220,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
             float x2 = event2.getX();
             float delta = x1 - x2;
             if (Math.abs(delta) > MIN_DELTA) {
+                playPageFlip();
                 if (x1 > x2) {
                     // swipe left, next
                     mGridView.setAdapter(new ImageAdapter(BinderActivity.this, mStrArr, mColumnWidth, mColumnHeight));

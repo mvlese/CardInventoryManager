@@ -51,7 +51,7 @@ public class SearchDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.search_dialog_layout, container, false);
+        mRootView = inflater.inflate(R.layout.search_dialog_layout_with_labels, container, false);
         mDatabaseHelper = new DatabaseHelper(mRootView.getContext());
         SearchModel model = mDatabaseHelper.getSearchModel();
 

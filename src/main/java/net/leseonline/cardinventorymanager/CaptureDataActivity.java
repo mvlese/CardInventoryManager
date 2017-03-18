@@ -176,7 +176,7 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
         String yearString = ((TextView)findViewById(R.id.year_edit)).getText().toString().trim();
         int year = 0;
         try {
-            year = Integer.parseInt(valueString);
+            year = Integer.parseInt(yearString);
         } catch (Exception ex) {
 
         }

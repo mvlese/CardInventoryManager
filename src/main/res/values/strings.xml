@@ -32,6 +32,8 @@
     <string name="extra_unique_id">net.leseonline.extra_unique_id</string>
     <string name="title_activity_single_card">SingleCardActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
 
     <string name="enter_admin_pw">Enter Admin Password</string>
     <string name="admin_pw">Admin Password</string>
@@ -54,9 +56,9 @@
     <string name="take_picture">Take Picture</string>
 
     <string name="clear">Clear</string>
-    <string name="search_first_name_hint">First Name  (use * for wildcard)</string>
-    <string name="search_last_name_hint">Last Name  (use * for wildcard)</string>
-    <string name="search_team_name_hint">Team Name  (use * for wildcard)</string>
-    <string name="search_company_hint">Company  (use * for wildcard)</string>
+    <string name="search_first_name_hint">(use * for wildcard)</string>
+    <string name="search_last_name_hint">(use * for wildcard)</string>
+    <string name="search_team_name_hint">(use * for wildcard)</string>
+    <string name="search_company_hint">(use * for wildcard)</string>
 
 </resources>

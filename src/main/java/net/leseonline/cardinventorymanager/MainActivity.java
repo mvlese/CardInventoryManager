@@ -261,9 +261,9 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             }
         } else if (requestCode == CAPTURE_DATA_REQUEST) {
             if (resultCode == RESULT_OK) {
-                BaseballCard card = CaptureDataActivity.getCard();
-                Log.d(TAG, card.toString());
-                mDatabaseHelper.addCard(card);
+//                BaseballCard card = CaptureDataActivity.getCard();
+//                Log.d(TAG, card.toString());
+//                mDatabaseHelper.addCard(card);
                 setValueText();
             } else if (resultCode == RESULT_CANCELED) {
 
@@ -300,11 +300,24 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
     public void onSearchDialogPositiveAction(SearchDialogFragment dialog) {
         SearchModel model = dialog.getSearchModel();
         mDatabaseHelper.saveSearchModel(model);
+        Intent intent = new Intent(MainActivity.this, SingleCardActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onSearchDialogNegativeAction(SearchDialogFragment dialog) {
         // do nothing
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setValueText();
     }
 
     private void setValueText() {

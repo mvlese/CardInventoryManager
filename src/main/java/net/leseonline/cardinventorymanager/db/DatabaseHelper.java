@@ -13,6 +13,7 @@ import net.leseonline.cardinventorymanager.R;
 import net.leseonline.cardinventorymanager.SearchModel;
 import net.leseonline.cardinventorymanager.SortOrder;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,7 +167,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             ContentValues values = new ContentValues();
             values.put(CardsContract.CardsEntry.COLUMN_NAME_CATEGORY, card.getCategoryName());
-            values.put(CardsContract.CardsEntry.COLUMN_NAME_COMPANY, card.getCategoryName());
+            values.put(CardsContract.CardsEntry.COLUMN_NAME_COMPANY, card.getCompanyName());
             //values.put(CardsContract.CardsEntry.COLUMN_NAME_PLAYER_ID, playerId);
             values.put(CardsContract.CardsEntry.COLUMN_NAME_PLAYER_FIRST_NAME, card.getFirstName());
             values.put(CardsContract.CardsEntry.COLUMN_NAME_PLAYER_LAST_NAME, card.getLastName());
@@ -185,6 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.update(CardsContract.CardsEntry.TABLE_NAME, values, whereClause, whereArgs);
 
             db.setTransactionSuccessful();
+            rowId = card.getUniqueId();
         }catch (Exception ex) {
             ex.printStackTrace();
             rowId = -1;
@@ -737,6 +739,144 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return model;
+    }
+
+    private String getWildCardArg(String data, String column, ArrayList<String> args) {
+        String result = "";
+        if (data.length() > 0) {
+            String operator = "=";
+            String temp = data;
+            if (temp.contains("*")) {
+                operator = "like";
+                temp = temp.replace("*", "%");
+            }
+            result = String.format("AND %s %s ? ", column, operator);
+            args.add(temp);
+        }
+
+        return result;
+    }
+
+    /**
+     * This method returns an array of Card IDs that matches the search criteria.
+     * @return an array of card IDs.
+     */
+    public ArrayList<Long> search() {
+        SearchModel searchModel = getSearchModel();
+        ArrayList<Long> result = new ArrayList<Long>();
+        String[] columns = new String[] {"_id"};
+        ArrayList<String> args = new ArrayList<>();
+        SQLiteDatabase db = null;
+        try {
+            String selection = "1 = 1 ";
+
+            selection += getWildCardArg(getSearchModel().getFirstName(), CardsContract.CardsEntry.COLUMN_NAME_PLAYER_FIRST_NAME, args);
+            selection += getWildCardArg(getSearchModel().getLastName(), CardsContract.CardsEntry.COLUMN_NAME_PLAYER_LAST_NAME, args);
+            selection += getWildCardArg(getSearchModel().getTeamName(), CardsContract.CardsEntry.COLUMN_NAME_TEAM_NAME, args);
+            selection += getWildCardArg(getSearchModel().getCompany(), CardsContract.CardsEntry.COLUMN_NAME_COMPANY, args);
+
+            if (searchModel.getCondition() != Card.Condition.None) {
+                selection += String.format("AND %s = ? ", CardsContract.CardsEntry.COLUMN_NAME_CONDITION_CODE);
+                args.add(String.valueOf(searchModel.getCondition().getCode()));
+            }
+            if (searchModel.getPosition() != BaseballCard.Position.None) {
+                selection += String.format("AND %s = ? ", CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE);
+                args.add(String.valueOf(searchModel.getPosition().getCode()));
+            }
+            if (searchModel.getYear() != Integer.MIN_VALUE) {
+                selection += String.format("AND %s = ? ", CardsContract.CardsEntry.COLUMN_NAME_YEAR);
+                args.add(String.valueOf(searchModel.getYear()));
+            }
+            int count = 0;
+            db = this.getReadableDatabase();
+            Cursor c = db.query(CardsContract.CardsEntry.TABLE_NAME, columns, selection, args.toArray(new String[0]), null, null, null);
+            while(c.moveToNext()) {
+                result.add(c.getLong(0));
+            }
+            c.close();
+        } catch (Exception ex) {
+        } finally {
+            try {
+                db.close();
+            }catch (Exception ex) {
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * This method returns the BaseballCard object for the given ID.
+     * @param id the card id to search for.
+     * @return the BaseballCard object or null if not found;
+     */
+    public BaseballCard find(long id) {
+        BaseballCard card = null;
+        String[] args = new String[] { String.valueOf(id) };
+        String[] columns = new String[]{
+            CardsContract.CardsEntry.COLUMN_NAME_CATEGORY,
+            CardsContract.CardsEntry.COLUMN_NAME_COMPANY,
+            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_FIRST_NAME,
+            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_LAST_NAME,
+            CardsContract.CardsEntry.COLUMN_NAME_TEAM_NAME,
+                CardsContract.CardsEntry.COLUMN_NAME_NOTES,
+            CardsContract.CardsEntry.COLUMN_NAME_VALUE,
+            CardsContract.CardsEntry.COLUMN_NAME_YEAR,
+            CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE,
+            CardsContract.CardsEntry.COLUMN_NAME_CONDITION_CODE
+        };
+        SQLiteDatabase db = null;
+        try {
+            String selection = "_id = ?";
+
+            db = this.getReadableDatabase();
+            Cursor c = db.query(CardsContract.CardsEntry.TABLE_NAME, columns, selection, args, null, null, null);
+            if(c.moveToNext()) {
+                int n = 1;
+                card = new BaseballCard((int)id);
+                card.setCompanyName(c.getString(n++));
+                card.setFirstName(c.getString(n++));
+                card.setLastName(c.getString(n++));
+                card.setTeamName(c.getString(n++));
+                card.setNotes(c.getString(n++));
+
+                String temp = c.getString(n++);
+                if (temp.length() > 0) {
+                    card.setValue(Float.valueOf(temp));
+                }
+
+                temp = c.getString(n++);
+                if (temp.length() > 0) {
+                    card.setYear(Integer.valueOf(temp));
+                }
+
+                temp = c.getString(n++);
+                if (temp.length() > 0) {
+                    int code = Integer.valueOf(temp);
+                    card.setPosition(BaseballCard.Position.fromCode(code));
+                }
+
+                temp = c.getString(n++);
+                if (temp.length() > 0) {
+                    int code = Integer.valueOf(temp);
+                    card.setCondition(BaseballCard.Condition.fromCode(code));
+                }
+            }
+            c.close();
+        } catch (Exception ex) {
+        } finally {
+            try {
+                db.close();
+            }catch (Exception ex) {
+            }
+        }
+
+        return card;
+    }
+
+    public void updateCard(BaseballCard card) {
+        // addCard actually does an update
+        addCard(card);
     }
 
     private static final String CREATE_TABLE_CARDS = "CREATE TABLE " +

@@ -20,6 +20,7 @@
     <string name="year_hint">Year</string>
     <string name="notes_hint">Notes</string>
     <string name="capture_image_header">Enter the Card Data</string>
+    <string name="capture_image_header_edit">Edit the Card Data</string>
     <string name="search_header">Enter Search Data</string>
     <string name="cancel_button">Cancel</string>
     <string name="ok_button">OK</string>

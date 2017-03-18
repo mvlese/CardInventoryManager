@@ -38,7 +38,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
-            android:src="@drawable/cancel"/>
+            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -48,18 +48,18 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
-            android:src="@drawable/aperature2"/>
+            android:src="@android:drawable/ic_menu_camera"/>
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="3"/>
-        <ImageButton
+            android:layout_weight="4"/>
+<!--        <ImageButton
             android:id="@+id/btn_commit_picture"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
             android:visibility="visible"
-            android:src="@drawable/checkmark"/>
+            android:src="@drawable/checkmark"/> -->
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"

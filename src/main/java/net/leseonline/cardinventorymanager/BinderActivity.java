@@ -85,15 +85,16 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         mColumnHeight = mRequiredHeight / column ;
         mGridView.setAdapter(new ImageAdapter(this, mStrArr, mColumnWidth, mColumnHeight));
         enableDisableView(mGridView, false);
-//        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View v,
-//                                    int position, long id) {
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Log.d("Gestures", "onItemClick");
 //                Toast.makeText(
 //                        getApplicationContext(),
 //                        String.valueOf(position), Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
+
+            }
+        });
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
     }

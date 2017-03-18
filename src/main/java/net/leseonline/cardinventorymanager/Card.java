@@ -12,11 +12,17 @@ public abstract class Card {
     private String mBackImagePath;
     private Condition mCondition;
 
-    abstract public String getCategoryName();
-
     public Card(int uniqueId) {
         mUniqueId = uniqueId;
+        mCompanyName = "";
+        mValue = 0.0f;
+        mNotes = "";
+        mFrontImagePath = "";
+        mBackImagePath = "";
+        mCondition = Condition.None;
     }
+
+    abstract public String getCategoryName();
 
     public int getUniqueId() {
         return mUniqueId;

@@ -25,6 +25,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/capture_data_heading"
                 android:text="@string/capture_image_header"
                 android:gravity="center"
                 android:textSize="12pt"

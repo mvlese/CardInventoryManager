@@ -61,21 +61,11 @@ public class SearchDialogFragment extends DialogFragment {
         mConditionsSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mConditions.setAdapter(mConditionsSpinnerArrayAdapter);
 
-//        mConditionsSpinnerArrayAdapter =
-//                new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_item, Card.Condition.getTextValues());
-//        mConditionsSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        mConditions.setAdapter(mConditionsSpinnerArrayAdapter);
-
         Spinner mPositions = (Spinner)mRootView.findViewById(R.id.position_spinner);
         mPositionsSpinnerArrayAdapter =
                 new ArrayAdapter<BaseballCard.Position>(mRootView.getContext(), android.R.layout.simple_spinner_item, BaseballCard.Position.values());
         mPositionsSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPositions.setAdapter(mPositionsSpinnerArrayAdapter);
-
-//        mPositionsSpinnerArrayAdapter =
-//                new ArrayAdapter<String>(mRootView.getContext(), android.R.layout.simple_spinner_item, BaseballCard.Position.getTextValues());
-//        mPositionsSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        mPositions.setAdapter(mPositionsSpinnerArrayAdapter);
 
         int condIdx = mConditionsSpinnerArrayAdapter.getPosition(model.getCondition());
         int posIdx = mPositionsSpinnerArrayAdapter.getPosition(model.getPosition());

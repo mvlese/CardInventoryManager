@@ -1,8 +1,10 @@
 package net.leseonline.cardinventorymanager;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,10 +18,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -27,8 +31,12 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
     private GestureDetectorCompat mDetector;
     private ArrayList<Integer> mIndices;
     private int mCurrentIndex;
-    private Bitmap[] mBitmaps;
+    //private Bitmap[] mBitmaps;
     private DatabaseHelper mDatabaseHelper;
+    private ArrayList<Long> ids;
+    private int mUniqueCardId;
+    private boolean mIsFront;
+    private final static int CAPTURE_DATA_REQUEST = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,33 +46,60 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
         setSupportActionBar(toolbar);
         mIndices = new ArrayList<>();
         mCurrentIndex = 0;
+        mUniqueCardId = 0;
+        mIsFront = true;
         mDatabaseHelper = new DatabaseHelper(this);
+        ids = mDatabaseHelper.search();
 
-        mBitmaps = new Bitmap[] {
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc1),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc2),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc3),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc4),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc5),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc6),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc7),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc8),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc9),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc10),
-                BitmapFactory.decodeResource(getResources(), R.drawable.bc11),
-        };
+//        mBitmaps = new Bitmap[] {
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc1),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc2),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc3),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc4),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc5),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc6),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc7),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc8),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc9),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc10),
+//                BitmapFactory.decodeResource(getResources(), R.drawable.bc11),
+//        };
+//
+//        while (mIndices.size() != mBitmaps.length) {
+//            int index = ((int)(Math.random() * 10000)) % mBitmaps.length;
+//            if (!mIndices.contains(index)) {
+//                mIndices.add(index);
+//            }
+//        }
+//
+//        ImageView iv = (ImageView)findViewById(R.id.single_card_view);
+//        iv.setImageBitmap(mBitmaps[mCurrentIndex]);
 
-        while (mIndices.size() != mBitmaps.length) {
-            int index = ((int)(Math.random() * 10000)) % mBitmaps.length;
-            if (!mIndices.contains(index)) {
-                mIndices.add(index);
+        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+        showCard();
+    }
+
+    private void showCard() {
+        ImageView iv = (ImageView) findViewById(R.id.single_card_view);
+        TextView tv = (TextView)findViewById(R.id.text_view_single);
+        boolean isFound = false;
+        if (ids.size() > 0) {
+            BaseballCard card = mDatabaseHelper.find(ids.get(mCurrentIndex));
+            if (card != null) {
+                isFound = true;
+                tv.setVisibility(View.VISIBLE);
+                mUniqueCardId = card.getUniqueId();
+                File file  = getImageFile(mIsFront);
+                iv.setImageDrawable(Drawable.createFromPath(file.getPath()));
+                tv.setText(mIsFront ? "Front View" : "Back View");
             }
         }
 
-        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
-
-        ImageView iv = (ImageView)findViewById(R.id.single_card_view);
-        iv.setImageBitmap(mBitmaps[mCurrentIndex]);
+        if (!isFound){
+            mIsFront = true;
+            iv.setImageResource(R.drawable.no_card);
+            tv.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -89,6 +124,8 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_rotate) {
+            mIsFront = !mIsFront;
+            showCard();
             return true;
         } else if (id == R.id.action_search) {
             FragmentManager fm = getFragmentManager();
@@ -104,11 +141,43 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
     public void onSearchDialogPositiveAction(SearchDialogFragment dialog) {
         SearchModel model = dialog.getSearchModel();
         mDatabaseHelper.saveSearchModel(model);
+        ids = mDatabaseHelper.search();
+        mCurrentIndex = 0;
+        mUniqueCardId = 0;
+        mIsFront = true;
+        showCard();
     }
 
     @Override
     public void onSearchDialogNegativeAction(SearchDialogFragment dialog) {
         // do nothing
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    private File getImageFile(Boolean isFront) {
+        File filesDir = this.getFilesDir();
+        String pre = isFront ? "IMGF_" : "IMGB_";
+        File photoFile = new File(filesDir, pre + String.valueOf(Math.abs(mUniqueCardId)) + ".jpg");
+        return photoFile;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_DATA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                BaseballCard card = CaptureDataActivity.getCard();
+                mDatabaseHelper.updateCard(card);
+            }
+        }
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
@@ -118,6 +187,13 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
         public boolean onDown(MotionEvent event) {
             Log.d(DEBUG_TAG,"onDown: " + event.toString());
             return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            Intent intent = new Intent(SingleCardActivity.this, CaptureDataActivity.class);
+            intent.putExtra(getResources().getString(R.string.extra_unique_id), -mUniqueCardId);
+            startActivityForResult(intent, CAPTURE_DATA_REQUEST);
         }
 
         @Override
@@ -131,16 +207,16 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
             if (Math.abs(delta) > MIN_DELTA) {
                 if (x1 > x2) {
                     // swipe left, next
-                    mCurrentIndex = (mCurrentIndex + 1) % mBitmaps.length;
+                    mCurrentIndex = (mCurrentIndex + 1) % ids.size();
                 } else {
                     // swipe right, prev
                     mCurrentIndex--;
                     if (mCurrentIndex < 0) {
-                        mCurrentIndex = mBitmaps.length - 1;
+                        mCurrentIndex = ids.size() - 1;
                     }
                 }
-                ImageView iv = (ImageView)findViewById(R.id.single_card_view);
-                iv.setImageBitmap(mBitmaps[mCurrentIndex]);
+                mIsFront = true;
+                showCard();
             }
             return true;
         }

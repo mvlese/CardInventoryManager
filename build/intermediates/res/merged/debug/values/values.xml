@@ -307,6 +307,7 @@
     <string name="camera_view">Camera View</string>
     <string name="cancel_button">Cancel</string>
     <string name="capture_image_header">Enter the Card Data</string>
+    <string name="capture_image_header_edit">Edit the Card Data</string>
     <string name="character_counter_pattern" translatable="false">%1$d / %2$d</string>
     <string name="clear">Clear</string>
     <string name="common_android_wear_notification_needs_update_text"><ns1:g id="app_name">%1$s</ns1:g> requires an update to the Android Wear app.</string>

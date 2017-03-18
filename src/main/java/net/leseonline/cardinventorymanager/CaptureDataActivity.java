@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import net.leseonline.cardinventorymanager.db.DatabaseHelper;
+
+import java.text.DecimalFormat;
+import java.util.concurrent.locks.Condition;
 
 public class CaptureDataActivity extends AppCompatActivity implements EditNotesDialogFragment.IEditNotesDialogListener {
     private Spinner mPositions;
@@ -20,28 +27,36 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
     private Button mSaveButton;
     private String mNotes;
     private int mUniqueId;
+    private Boolean mIsEdit;
     private static BaseballCard mCard = null;
+    private DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mIsEdit = false;
         mCard = null;
         mNotes = "";
+        mDatabaseHelper = new DatabaseHelper(this);
         setContentView(R.layout.activity_capture_data);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mUniqueId = getIntent().getIntExtra(getResources().getString(R.string.extra_unique_id), -1);
+        if (mUniqueId < 0) {
+            mIsEdit = true;
+            mUniqueId *= -1;
+        }
 
         mConditions = (Spinner)findViewById(R.id.condition_spinner);
-        ArrayAdapter<String> conditionsSpinnerArrayAdapter =
-            new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Card.Condition.getTextValues());
+        ArrayAdapter<Card.Condition> conditionsSpinnerArrayAdapter =
+            new ArrayAdapter<Card.Condition>(this, android.R.layout.simple_spinner_item, Card.Condition.values());
         conditionsSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mConditions.setAdapter(conditionsSpinnerArrayAdapter);
 
         mPositions = (Spinner)findViewById(R.id.position_spinner);
-        ArrayAdapter<String> positionsSpinnerArrayAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, BaseballCard.Position.getTextValues());
+        ArrayAdapter<BaseballCard.Position> positionsSpinnerArrayAdapter =
+                new ArrayAdapter<BaseballCard.Position>(this, android.R.layout.simple_spinner_item, BaseballCard.Position.values());
         positionsSpinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mPositions.setAdapter(positionsSpinnerArrayAdapter);
 
@@ -70,10 +85,56 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
             @Override
             public void onClick(View v) {
                 mCard = saveCardData();
+                if (mIsEdit) {
+                    mDatabaseHelper.updateCard(mCard);
+                } else {
+                    // New card
+                    mDatabaseHelper.addCard(mCard);
+                }
                 setResult(RESULT_OK);
                 finish();
             }
         });
+
+        if (mIsEdit) {
+            // TODO mvl - handle notes
+            mNotesButton.setEnabled(false);
+
+            TextView tv = (TextView)findViewById(R.id.capture_data_heading);
+            tv.setText(getResources().getText(R.string.capture_image_header_edit));
+
+            BaseballCard card = mDatabaseHelper.find(mUniqueId);
+            int condIdx = conditionsSpinnerArrayAdapter.getPosition(card.getCondition());
+            int posIdx = positionsSpinnerArrayAdapter.getPosition(card.getPosition());
+
+            EditText et = (EditText)findViewById(R.id.first_name_edit);
+            et.setText(card.getFirstName());
+            et = (EditText)findViewById(R.id.last_name_edit);
+            et.setText(card.getLastName());
+            et = (EditText)findViewById(R.id.team_edit);
+            et.setText(card.getTeamName());
+            et = (EditText)findViewById(R.id.company_edit);
+            et.setText(card.getCompanyName());
+
+            String year = "";
+            et = (EditText)findViewById(R.id.year_edit);
+            if (card.getYear() != Integer.MIN_VALUE && card.getYear() != 0) {
+                year = String.valueOf(card.getYear());
+            }
+            et.setText(year);
+
+            et = (EditText)findViewById(R.id.value_edit);
+            DecimalFormat df = new DecimalFormat("#######0.00");
+            String value = df.format(card.getValue());
+            et.setText(value);
+
+            Spinner spinner = (Spinner)findViewById(R.id.position_spinner);
+            spinner.setSelection(posIdx);
+
+            spinner = (Spinner)findViewById(R.id.condition_spinner);
+            spinner.setSelection(condIdx);
+
+        }
     }
 
     @Override

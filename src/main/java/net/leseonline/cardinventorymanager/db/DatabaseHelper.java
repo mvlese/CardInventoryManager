@@ -819,7 +819,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CardsContract.CardsEntry.COLUMN_NAME_PLAYER_FIRST_NAME,
             CardsContract.CardsEntry.COLUMN_NAME_PLAYER_LAST_NAME,
             CardsContract.CardsEntry.COLUMN_NAME_TEAM_NAME,
-                CardsContract.CardsEntry.COLUMN_NAME_NOTES,
+            CardsContract.CardsEntry.COLUMN_NAME_NOTES,
             CardsContract.CardsEntry.COLUMN_NAME_VALUE,
             CardsContract.CardsEntry.COLUMN_NAME_YEAR,
             CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE,
@@ -841,23 +841,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 card.setNotes(c.getString(n++));
 
                 String temp = c.getString(n++);
-                if (temp.length() > 0) {
+                if (temp != null && temp.length() > 0) {
                     card.setValue(Float.valueOf(temp));
                 }
 
                 temp = c.getString(n++);
-                if (temp.length() > 0) {
+                if (temp != null && temp.length() > 0) {
                     card.setYear(Integer.valueOf(temp));
                 }
 
                 temp = c.getString(n++);
-                if (temp.length() > 0) {
+                if (temp != null && temp.length() > 0) {
                     int code = Integer.valueOf(temp);
                     card.setPosition(BaseballCard.Position.fromCode(code));
                 }
 
                 temp = c.getString(n++);
-                if (temp.length() > 0) {
+                if (temp != null && temp.length() > 0) {
                     int code = Integer.valueOf(temp);
                     card.setCondition(BaseballCard.Condition.fromCode(code));
                 }
@@ -882,16 +882,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_CARDS = "CREATE TABLE " +
             CardsContract.CardsEntry.TABLE_NAME + "(" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-            CardsContract.CardsEntry.COLUMN_NAME_CATEGORY + " TEXT, " +
-            CardsContract.CardsEntry.COLUMN_NAME_COMPANY + " TEXT, " +
+            CardsContract.CardsEntry.COLUMN_NAME_CATEGORY + " TEXT COLLATE NOCASE, " +
+            CardsContract.CardsEntry.COLUMN_NAME_COMPANY + " TEXT COLLATE NOCASE, " +
 //            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_ID + " INT, " +
-            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_FIRST_NAME + " TEXT, " +
-            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_LAST_NAME + " TEXT, " +
-            CardsContract.CardsEntry.COLUMN_NAME_TEAM_NAME + " TEXT, " +
-            CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE + " TEXT, " +
+            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_FIRST_NAME + " TEXT COLLATE NOCASE, " +
+            CardsContract.CardsEntry.COLUMN_NAME_PLAYER_LAST_NAME + " TEXT COLLATE NOCASE, " +
+            CardsContract.CardsEntry.COLUMN_NAME_TEAM_NAME + " TEXT COLLATE NOCASE, " +
+            CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE + " TEXT COLLATE NOCASE, " +
             CardsContract.CardsEntry.COLUMN_NAME_VALUE + " FLOAT, " +
             CardsContract.CardsEntry.COLUMN_NAME_YEAR + " INT, " +
-            CardsContract.CardsEntry.COLUMN_NAME_NOTES + " TEXT, " +
+            CardsContract.CardsEntry.COLUMN_NAME_NOTES + " TEXT COLLATE NOCASE, " +
             CardsContract.CardsEntry.COLUMN_NAME_CONDITION_CODE + " INT " +
 //            CardsContract.CardsEntry.COLUMN_NAME_FRONT_IMAGE_PATH + " TEXT, " +
 //            CardsContract.CardsEntry.COLUMN_NAME_BACK_IMAGE_PATH + " TEXT, " +
@@ -932,13 +932,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_EFFECT_STATES = "CREATE TABLE " +
             CardsContract.EffectsStates.TABLE_NAME + "(" +
-            CardsContract.EffectsStates.COLUMN_NAME_FRIENDLY_NAME + " TEXT, " +
+            CardsContract.EffectsStates.COLUMN_NAME_FRIENDLY_NAME + " TEXT COLLATE NOCASE, " +
             CardsContract.EffectsStates.COLUMN_NAME_RES_ID + " INT, " +
             CardsContract.EffectsStates.COLUMN_NAME_IS_ON + " BOOLEAN)";
 
     private static final String CREATE_TABLE_SORT_ORDERS = "CREATE TABLE " +
             CardsContract.SortOrders.TABLE_NAME + "(" +
-            CardsContract.SortOrders.COLUMN_NAME_FRIENDLY_NAME + " TEXT, " +
+            CardsContract.SortOrders.COLUMN_NAME_FRIENDLY_NAME + " TEXT COLLATE NOCASE, " +
             CardsContract.SortOrders.COLUMN_NAME_ENABLED_RES_ID + " INT, " +
             CardsContract.SortOrders.COLUMN_NAME_DESC_RES_ID + " INT, " +
             CardsContract.SortOrders.COLUMN_NAME_SORT_ORDER + " INT, " +
@@ -947,10 +947,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE_SEARCH_MODEL = "CREATE TABLE " +
             CardsContract.SearchModel.TABLE_NAME + "(" +
-            CardsContract.SearchModel.COLUMN_NAME_FIRST_NAME + " TEXT, " +
-            CardsContract.SearchModel.COLUMN_NAME_LAST_NAME + " TEXT, " +
-            CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME + " TEXT, " +
-            CardsContract.SearchModel.COLUMN_NAME_COMPANY + " TEXT, " +
+            CardsContract.SearchModel.COLUMN_NAME_FIRST_NAME + " TEXT COLLATE NOCASE, " +
+            CardsContract.SearchModel.COLUMN_NAME_LAST_NAME + " TEXT COLLATE NOCASE, " +
+            CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME + " TEXT COLLATE NOCASE, " +
+            CardsContract.SearchModel.COLUMN_NAME_COMPANY + " TEXT COLLATE NOCASE, " +
             CardsContract.SearchModel.COLUMN_NAME_YEAR + " INT, " +
             CardsContract.SearchModel.COLUMN_NAME_CONDITION + " INT, " +
             CardsContract.SearchModel.COLUMN_NAME_POSITION + " INT)";

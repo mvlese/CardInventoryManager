@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_gray"
         android:id="@+id/camera2_linear_bottom">
         <Space
             android:layout_width="0dp"
@@ -38,7 +37,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
+            android:src="@drawable/cancel"/>
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -48,7 +47,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/ic_menu_camera"/>
+            android:src="@drawable/aperature2"/>
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"

@@ -1,12 +1,10 @@
 package net.leseonline.cardinventorymanager;
 
 import android.app.FragmentManager;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -15,20 +13,17 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -118,18 +113,14 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                 } else {
                     mCameraState = CameraState.CAPTURE_FRONT;
                     captureImage(true);
-//                    Intent captureIntent = new Intent(MainActivity.this.getApplicationContext(), CaptureActivity.class);
-                    //captureImage(captureIntent, mCardUniqueId, true);
-//                final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                boolean canTakePhoto = (captureImage.resolveActivity(getPackageManager()) != null);
+//                final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                boolean canTakePhoto = (intent.resolveActivity(getPackageManager()) != null);
 //                if (canTakePhoto) {
-//                    // This uniqueId will be used to form the image file names.
-//                    mCardUniqueId = mDatabaseHelper.getNextUniqueid();
-//                    if (mCardUniqueId == -1) {
+//                    if (mUniqueCardId == -1) {
 //                        // TODO mvl - Handle this error.
 //                    } else {
 //                        mCameraState = CameraState.CAPTURE_FRONT;
-//                        captureImage(captureImage, mCardUniqueId, true);
+//                        captureImage(intent, true);
 //                    }
 //                }
                 }
@@ -205,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         if (requestCode == TAKE_PICTURE_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                Toast.makeText(MainActivity.this, "Save", Toast.LENGTH_SHORT).show();
                 // Do something
                 // If CAPTURE_FRONT, then save front image, change state to CAPTURE_BACK
                 // If CAPTURE_BACK, then save back image, change state to CAPTURE_DATA
@@ -215,8 +205,8 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                     case CAPTURE_FRONT:
                         revokeWriteUriPermission();
                         mCameraState = CameraState.CAPTURE_BACK;
-                        //final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        //captureImage(captureImage, mCardUniqueId, false);
+//                        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        captureImage(captureImage, false);
                         captureImage(false);
                         break;
                     case CAPTURE_BACK:
@@ -243,13 +233,16 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
                     case CAPTURE_IDLE:
                         break;
                     case CAPTURE_FRONT:
+                        mDatabaseHelper.deleteCardRecord(mUniqueCardId);
                         revokeWriteUriPermission();
                         mCameraState = CameraState.CAPTURE_IDLE;
                         break;
                     case CAPTURE_BACK:
+                        mCameraState = CameraState.CAPTURE_DATA;
                         revokeWriteUriPermission();
-                        mCameraState = CameraState.CAPTURE_IDLE;
-                        break;
+                        Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
+                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
+                        startActivityForResult(intent, CAPTURE_DATA_REQUEST);
                     case CAPTURE_DATA:
                         mCameraState = CameraState.CAPTURE_IDLE;
                         break;
@@ -327,25 +320,31 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
     }
 
     private void captureImage(boolean isFront) {
-//    private void captureImage(Intent captureImage, int uniqueId, boolean isFront) {
+//    private void captureImage(Intent intent, boolean isFront) {
 //        File filesDir = this.getFilesDir();
+//        String toastMessage = String.format("%s - Take Picture.", isFront ? "FRONT" : "BACK");
+//        Toast.makeText(MainActivity.this, toastMessage, Toast.LENGTH_LONG).show();
 //        String pre = isFront ? "IMGF_" : "IMGB_";
-//        mPhotoFile = new File(filesDir, pre + String.valueOf(mCardUniqueId) + ".jpg");
+//        mPhotoFile = new File(filesDir, pre + String.valueOf(mUniqueCardId) + ".jpg");
+//
+//        ContentValues values = new ContentValues();
+//        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+//        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
 //
 //        Uri uri = FileProvider.getUriForFile(this,
 //                "net.leseonline.fileprovider",
 //                MainActivity.this.mPhotoFile);
-//        captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 //
 //        List<ResolveInfo> cameraActivities = this
-//                .getPackageManager().queryIntentActivities(captureImage,
+//                .getPackageManager().queryIntentActivities(intent,
 //                        PackageManager.MATCH_DEFAULT_ONLY);
 //
 //        for (ResolveInfo activity : cameraActivities) {
 //            this.grantUriPermission(activity.activityInfo.packageName,
 //                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 //        }
-//        startActivityForResult(captureImage, TAKE_PICTURE_REQUEST);
+//        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
 
         Intent intent = new Intent(getApplicationContext(), AndroidCameraApi.class);
         int extraData = isFront ? mUniqueCardId : -mUniqueCardId;

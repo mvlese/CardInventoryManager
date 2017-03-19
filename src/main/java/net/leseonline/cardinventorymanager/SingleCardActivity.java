@@ -96,7 +96,9 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
                 mUniqueCardId = card.getUniqueId();
                 File file  = getImageFile(mIsFront);
                 iv.setImageDrawable(Drawable.createFromPath(file.getPath()));
-                tv.setText(mIsFront ? "Front View" : "Back View");
+                String title = mIsFront ? "Front View" : "Back View";
+                title += String.format(" (%d of %d)", mCurrentIndex + 1, ids.size());
+                tv.setText(title);
             }
         }
 

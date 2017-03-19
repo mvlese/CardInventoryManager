@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             SearchDialogFragment dialogFragment = new SearchDialogFragment();
             dialogFragment.show(fm, "Search");
             return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

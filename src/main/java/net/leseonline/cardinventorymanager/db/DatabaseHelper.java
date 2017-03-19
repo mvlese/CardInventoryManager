@@ -576,6 +576,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return effectStates;
     }
 
+    public boolean isSoundEnabled() {
+        boolean result = false;
+        EffectState[] effectStates = getEffectStates();
+        for (EffectState es: effectStates) {
+            if (es.getFriendlyName().compareToIgnoreCase("sound") == 0) {
+                result = es.isOn();
+            }
+        }
+        return result;
+    }
+
     public void addToEffectStates(EffectState es, SQLiteDatabase db) {
         ContentValues values = new ContentValues();
         values.put(CardsContract.EffectsStates.COLUMN_NAME_FRIENDLY_NAME, es.getFriendlyName());

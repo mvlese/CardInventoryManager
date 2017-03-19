@@ -9,8 +9,14 @@
         android:title="@string/action_search"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="101"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_admin"
-        android:orderInCategory="100"
+        android:orderInCategory="102"
         android:icon="@android:drawable/ic_menu_edit"
         android:title="@string/action_admin"
         app:showAsAction="always" />

@@ -139,6 +139,9 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
             SearchDialogFragment dialogFragment = new SearchDialogFragment();
             dialogFragment.show(fm, "Search");
             return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -188,21 +191,22 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
     }
 
     private void playPageFlip() {
-        if(mMediaPlayer.isPlaying())
-        {
-            mMediaPlayer.stop();
-        }
+        if (mDatabaseHelper.isSoundEnabled()) {
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.stop();
+            }
 
-        try {
-            mMediaPlayer.reset();
-            AssetFileDescriptor afd = getAssets().openFd("page-flip-4.mp3");
-            mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-            mMediaPlayer.prepare();
-            mMediaPlayer.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                mMediaPlayer.reset();
+                AssetFileDescriptor afd = getAssets().openFd("page-flip-4.mp3");
+                mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

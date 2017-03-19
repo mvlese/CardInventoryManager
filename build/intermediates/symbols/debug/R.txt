@@ -624,7 +624,7 @@ int drawable shape_droptarget 0x7f020069
 int drawable the_mick 0x7f02006a
 int id NewTeamLayout 0x7f0d006c
 int id action0 0x7f0d00b9
-int id action_admin 0x7f0d00c8
+int id action_admin 0x7f0d00c9
 int id action_bar 0x7f0d005c
 int id action_bar_activity_content 0x7f0d0000
 int id action_bar_container 0x7f0d005b
@@ -639,8 +639,9 @@ int id action_menu_presenter 0x7f0d0003
 int id action_mode_bar 0x7f0d0059
 int id action_mode_bar_stub 0x7f0d0058
 int id action_mode_close_button 0x7f0d003e
-int id action_rotate 0x7f0d00c9
+int id action_rotate 0x7f0d00ca
 int id action_search 0x7f0d00c7
+int id action_settings 0x7f0d00c8
 int id activity_chooser_view_content 0x7f0d003f
 int id add_notes_title 0x7f0d006d
 int id adjust_height 0x7f0d0033

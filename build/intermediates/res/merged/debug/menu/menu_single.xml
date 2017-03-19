@@ -10,8 +10,14 @@
         android:title="@string/action_search"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="101"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/action_settings"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_rotate"
-        android:orderInCategory="100"
+        android:orderInCategory="102"
         android:title="Rotate"
         android:icon="@android:drawable/ic_menu_rotate"
         app:showAsAction="always" />

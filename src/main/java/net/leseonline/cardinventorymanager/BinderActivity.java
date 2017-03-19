@@ -2,6 +2,7 @@ package net.leseonline.cardinventorymanager;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -140,6 +141,9 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
             SearchDialogFragment dialogFragment = new SearchDialogFragment();
             dialogFragment.show(fm, "Search");
             return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

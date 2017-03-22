@@ -11,6 +11,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureFailure;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
@@ -20,12 +21,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.SoundEffectConstants;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -33,6 +36,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import net.leseonline.cardinventorymanager.db.DatabaseHelper;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -69,11 +75,13 @@ public class AndroidCameraApi extends AppCompatActivity {
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
     private int mUniqueCardId;
+    private DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera2);
+        mDatabaseHelper = new DatabaseHelper(this);
 
         // If MIN_VALUE, it is bad.  If it is negative, it is the back, else the front.
         mUniqueCardId = getIntent().getIntExtra(getResources().getString(R.string.extra_unique_id), Integer.MIN_VALUE);
@@ -88,6 +96,7 @@ public class AndroidCameraApi extends AppCompatActivity {
         takePictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playShutter(AndroidCameraApi.this);
                 takePicture();
             }
         });
@@ -96,6 +105,7 @@ public class AndroidCameraApi extends AppCompatActivity {
         cancelPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(AndroidCameraApi.this);
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -204,6 +214,7 @@ public class AndroidCameraApi extends AppCompatActivity {
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader reader) {
+                    Log.d(TAG, "in onImageAvailable " + file.getPath());
                     Image image = null;
                     try {
                         image = reader.acquireLatestImage();
@@ -211,9 +222,12 @@ public class AndroidCameraApi extends AppCompatActivity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        Log.d(TAG, "Saved image to " + file.getPath());
                     } catch (FileNotFoundException e) {
+                        Log.d(TAG, "Exception1 " + e.getMessage());
                         e.printStackTrace();
                     } catch (IOException e) {
+                        Log.d(TAG, "Exception2 " + e.getMessage());
                         e.printStackTrace();
                     } finally {
                         if (image != null) {
@@ -226,6 +240,7 @@ public class AndroidCameraApi extends AppCompatActivity {
                     try {
                         output = new FileOutputStream(file);
                         output.write(bytes);
+                        Log.d(TAG, "Wrote image to " + file.getPath());
                     } finally {
                         if (null != output) {
                             output.close();
@@ -243,6 +258,12 @@ public class AndroidCameraApi extends AppCompatActivity {
                     setResult(RESULT_OK);
                     finish();
 //                    createCameraPreview();
+                }
+
+                @Override
+                public void onCaptureFailed(CameraCaptureSession session, CaptureRequest request, CaptureFailure failure) {
+                    Log.d(TAG, "in onCaptureFailed");
+                    super.onCaptureFailed(session, request, failure);
                 }
             };
             cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {

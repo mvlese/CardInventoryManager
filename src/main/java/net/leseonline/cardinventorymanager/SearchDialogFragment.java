@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -79,6 +80,13 @@ public class SearchDialogFragment extends DialogFragment {
         et = (EditText)mRootView.findViewById(R.id.company_edit);
         et.setText(model.getCompany());
 
+        String cardNum = "";
+        et = (EditText)mRootView.findViewById(R.id.card_num_edit);
+        if (model.getCardNum() > 0) {
+            cardNum = String.valueOf(model.getCardNum());
+        }
+        et.setText(cardNum);
+
         String year = "";
         et = (EditText)mRootView.findViewById(R.id.year_edit);
         if (model.getYear() != Integer.MIN_VALUE) {
@@ -97,6 +105,7 @@ public class SearchDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                Utilities.playClick(mRootView.getContext());
                 notifyListener(false);
             }
 
@@ -107,6 +116,7 @@ public class SearchDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                Utilities.playClick(mRootView.getContext());
                 notifyListener(true);
             }
 
@@ -117,6 +127,7 @@ public class SearchDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                Utilities.playClick(mRootView.getContext());
                 EditText et = (EditText)mRootView.findViewById(R.id.first_name_edit);
                 et.setText("");
                 et = (EditText)mRootView.findViewById(R.id.last_name_edit);
@@ -126,6 +137,8 @@ public class SearchDialogFragment extends DialogFragment {
                 et = (EditText)mRootView.findViewById(R.id.company_edit);
                 et.setText("");
                 et = (EditText)mRootView.findViewById(R.id.year_edit);
+                et.setText("");
+                et = (EditText)mRootView.findViewById(R.id.card_num_edit);
                 et.setText("");
                 Spinner spinner = (Spinner)mRootView.findViewById(R.id.position_spinner);
                 spinner.setSelection(0);
@@ -157,6 +170,11 @@ public class SearchDialogFragment extends DialogFragment {
         String temp = et.getText().toString().trim();
         int year = (temp.length() == 0) ? Integer.MIN_VALUE : Integer.parseInt(temp);
         model.setYear(year);
+
+        et = (EditText)mRootView.findViewById(R.id.card_num_edit);
+        temp = et.getText().toString().trim();
+        int cardNum = (temp.length() == 0) ? Integer.MIN_VALUE : Integer.parseInt(temp);
+        model.setCardNum(cardNum);
 
         Spinner spinner = (Spinner)mRootView.findViewById(R.id.position_spinner);
         BaseballCard.Position position =

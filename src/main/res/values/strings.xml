@@ -6,7 +6,7 @@
     <string name="binder_view">Binder View</string>
     <string name="single_view">Single View</string>
     <string name="camera_view">Camera View</string>
-    <string name="settings_view">Settings View</string>
+    <string name="settings_view">Settings</string>
     <string name="title_activity_capture">Card Inventory Manager</string>
     <string name="title_activity_capture_data">Card Inventory Manager</string>
     <string name="title_activity_binder">Card Inventory Manager</string>
@@ -34,6 +34,13 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="card_num">Card #</string>
+    
+    <string name="single_card_view">Single Card View</string>
+    <string name="multi_view">Multi-Card View</string>
+    <string name="enter_data_view">Enter Data</string>
+    <string name="edit_data_view">Edit Data</string>
+    <string name="search_settings">Search</string>
 
     <string name="enter_admin_pw">Enter Admin Password</string>
     <string name="admin_pw">Admin Password</string>

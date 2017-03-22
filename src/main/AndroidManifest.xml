@@ -53,25 +53,25 @@
 
         <activity
             android:name=".CaptureDataActivity"
-            android:label="@string/title_activity_capture_data"
+            android:label="@string/enter_data_view"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".BinderActivity"
-            android:label="@string/title_activity_binder"
+            android:label="@string/multi_view"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".SingleCardActivity"
-            android:label="@string/title_activity_capture_data"
+            android:label="@string/single_view"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_capture"
+            android:label="@string/settings"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

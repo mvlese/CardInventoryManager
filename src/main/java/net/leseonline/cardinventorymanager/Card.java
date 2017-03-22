@@ -11,6 +11,7 @@ public abstract class Card {
     private String mFrontImagePath;
     private String mBackImagePath;
     private Condition mCondition;
+    private int mCardNum;
 
     public Card(int uniqueId) {
         mUniqueId = uniqueId;
@@ -74,6 +75,18 @@ public abstract class Card {
 
     public void setCondition(Condition condition) {
         mCondition = condition;
+    }
+
+    public int getCardNum() {
+        return mCardNum;
+    }
+
+    public void setCardNum(int cardNum) {
+        mCardNum = cardNum;
+    }
+
+    public void setUniqueId(int uniqueId) {
+        mUniqueId = uniqueId;
     }
 
     /**

@@ -35,6 +35,7 @@ public class CardsContract {
         public static final String COLUMN_NAME_POSITION_CODE = "position";
         public static final String COLUMN_NAME_VALUE = "value";
         public static final String COLUMN_NAME_YEAR = "year";
+        public static final String COLUMN_NAME_CARD_NUM = "card_num";
         public static final String COLUMN_NAME_NOTES = "notes";
         //public static final String COLUMN_NAME_FRONT_IMAGE_PATH = "front_path";
         //public static final String COLUMN_NAME_BACK_IMAGE_PATH = "back_path";
@@ -103,6 +104,7 @@ public class CardsContract {
         public static final String COLUMN_NAME_TEAM_NAME = "team_name";
         public static final String COLUMN_NAME_COMPANY = "company";
         public static final String COLUMN_NAME_YEAR = "year";
+        public static final String COLUMN_NAME_CARD_NUM = "card_num";
         public static final String COLUMN_NAME_CONDITION = "condition";
         public static final String COLUMN_NAME_POSITION = "position";
     }

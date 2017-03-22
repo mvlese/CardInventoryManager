@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -64,6 +65,7 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(v.getContext());
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -73,6 +75,7 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
         mNotesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(v.getContext());
                 // Create the notes dialog
                 FragmentManager fm = getFragmentManager();
                 EditNotesDialogFragment dialogFragment = new EditNotesDialogFragment();
@@ -84,6 +87,7 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(v.getContext());
                 mCard = saveCardData();
                 if (mIsEdit) {
                     mDatabaseHelper.updateCard(mCard);
@@ -118,10 +122,17 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
 
             String year = "";
             et = (EditText)findViewById(R.id.year_edit);
-            if (card.getYear() != Integer.MIN_VALUE && card.getYear() != 0) {
+            if (card.getYear() > 0) {
                 year = String.valueOf(card.getYear());
             }
             et.setText(year);
+
+            String cardNum = "";
+            et = (EditText)findViewById(R.id.card_num_edit);
+            if (card.getCardNum() > 0) {
+                cardNum = String.valueOf(card.getCardNum());
+            }
+            et.setText(cardNum);
 
             et = (EditText)findViewById(R.id.value_edit);
             DecimalFormat df = new DecimalFormat("#######0.00");
@@ -181,6 +192,15 @@ public class CaptureDataActivity extends AppCompatActivity implements EditNotesD
 
         }
         result.setYear(year);
+
+        String cardNumString = ((TextView)findViewById(R.id.card_num_edit)).getText().toString().trim();
+        int cardNum = Integer.MIN_VALUE;
+        try {
+            cardNum = Integer.parseInt(cardNumString);
+        } catch (Exception ex) {
+
+        }
+        result.setCardNum(cardNum);
 
         result.setPosition(BaseballCard.Position.values()[mPositions.getSelectedItemPosition()]);
         result.setCondition(BaseballCard.Condition.values()[mConditions.getSelectedItemPosition()]);

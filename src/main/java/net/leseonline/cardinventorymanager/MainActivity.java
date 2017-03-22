@@ -13,6 +13,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         singleViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, SingleCardActivity.class);
                 startActivity(intent);
             }
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         binderViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, BinderActivity.class);
                 startActivity(intent);
             }
@@ -104,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         cameraViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(MainActivity.this);
 
                 // Toast.makeText(MainActivity.this.getApplicationContext(), "Capture an Image", Toast.LENGTH_SHORT).show();
                 // This uniqueId will be used to form the image file names.
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         settingsViewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utilities.playClick(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
 
@@ -257,12 +262,11 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             }
         } else if (requestCode == CAPTURE_DATA_REQUEST) {
             if (resultCode == RESULT_OK) {
-//                BaseballCard card = CaptureDataActivity.getCard();
-//                Log.d(TAG, card.toString());
-//                mDatabaseHelper.addCard(card);
                 setValueText();
             } else if (resultCode == RESULT_CANCELED) {
-
+                mDatabaseHelper.deleteCardRecord(mUniqueCardId);
+                deleteFiles();
+                mCameraState = CameraState.CAPTURE_IDLE;
             }
             mCameraState = CameraState.CAPTURE_IDLE;
         }
@@ -389,10 +393,17 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
         }
     }
 
-    private File getImageFile() {
+    private void deleteFiles() {
+        File f = getImageFile(true);
+        f.delete();
+        f = getImageFile(false);
+        f.delete();
+    }
+
+    private File getImageFile(boolean isFront) {
         File filesDir = this.getFilesDir();
-        String pre = (mUniqueCardId > 0) ? "IMGF_" : "IMGB_";
-        File photoFile = new File(filesDir, pre + String.valueOf(Math.abs(mUniqueCardId)) + ".jpg");
+        String pre = isFront ? "IMGF_" : "IMGB_";
+        File photoFile = new File(filesDir, pre + String.valueOf(mUniqueCardId) + ".jpg");
         return photoFile;
     }
 

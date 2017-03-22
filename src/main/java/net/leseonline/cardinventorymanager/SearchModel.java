@@ -11,6 +11,7 @@ public class SearchModel {
     BaseballCard.Position mPosition;
     Card.Condition mCondition;
     int mYear;
+    int mCardNum;
 
     public SearchModel() {
         mFirstName = "";
@@ -20,6 +21,7 @@ public class SearchModel {
         mPosition = BaseballCard.Position.None;
         mCondition = Card.Condition.None;
         mYear = Integer.MIN_VALUE;
+        mCardNum = Integer.MIN_VALUE;
     }
 
     public String getFirstName() {
@@ -76,5 +78,13 @@ public class SearchModel {
 
     public void setYear(int year) {
         mYear = year;
+    }
+
+    public int getCardNum() {
+        return mCardNum;
+    }
+
+    public void setCardNum(int cardNum) {
+        mCardNum = cardNum;
     }
 }

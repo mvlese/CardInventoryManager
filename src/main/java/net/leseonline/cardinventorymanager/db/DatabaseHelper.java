@@ -175,6 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE, card.getPosition().getCode());
             values.put(CardsContract.CardsEntry.COLUMN_NAME_VALUE, card.getValue());
             values.put(CardsContract.CardsEntry.COLUMN_NAME_YEAR, card.getYear());
+            values.put(CardsContract.CardsEntry.COLUMN_NAME_CARD_NUM, card.getCardNum());
             values.put(CardsContract.CardsEntry.COLUMN_NAME_NOTES, card.getNotes());
 //            values.put(CardsContract.CardsEntry.COLUMN_NAME_YEAR, frontImagePath);
 //            values.put(CardsContract.CardsEntry.COLUMN_NAME_YEAR, backImagePath);
@@ -690,6 +691,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME, model.getTeamName());
             values.put(CardsContract.SearchModel.COLUMN_NAME_COMPANY, model.getCompany());
             values.put(CardsContract.SearchModel.COLUMN_NAME_YEAR, model.getYear());
+            values.put(CardsContract.SearchModel.COLUMN_NAME_CARD_NUM, model.getCardNum());
 
             int conditionCode = model.getCondition().getCode();
             values.put(CardsContract.SearchModel.COLUMN_NAME_CONDITION, conditionCode);
@@ -720,6 +722,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME,
             CardsContract.SearchModel.COLUMN_NAME_COMPANY,
             CardsContract.SearchModel.COLUMN_NAME_YEAR,
+            CardsContract.SearchModel.COLUMN_NAME_CARD_NUM,
             CardsContract.SearchModel.COLUMN_NAME_CONDITION,
             CardsContract.SearchModel.COLUMN_NAME_POSITION
         };
@@ -729,15 +732,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db = this.getReadableDatabase();
             Cursor c = db.query(CardsContract.SearchModel.TABLE_NAME, columns, null, null, null, null, null);
             if (c.moveToNext()) {
-                model.setFirstName(c.getString(0));
-                model.setLastName(c.getString(1));
-                model.setTeamName(c.getString(2));
-                model.setCompany(c.getString(3));
-                model.setYear(c.getInt(4));
-                int conditionCode = c.getInt(5);
+                int n = 0;
+                model.setFirstName(c.getString(n++));
+                model.setLastName(c.getString(n++));
+                model.setTeamName(c.getString(n++));
+                model.setCompany(c.getString(n++));
+                model.setYear(c.getInt(n++));
+                model.setCardNum(c.getInt(n++));
+                int conditionCode = c.getInt(n++);
                 model.setCondition(Card.Condition.fromCode(conditionCode));
 
-                int positionCode = c.getInt(6);
+                int positionCode = c.getInt(n++);
                 model.setPosition(BaseballCard.Position.fromCode(positionCode));
             }
             c.close();
@@ -794,9 +799,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 selection += String.format("AND %s = ? ", CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE);
                 args.add(String.valueOf(searchModel.getPosition().getCode()));
             }
-            if (searchModel.getYear() != Integer.MIN_VALUE) {
+            if (searchModel.getYear() > 0) {
                 selection += String.format("AND %s = ? ", CardsContract.CardsEntry.COLUMN_NAME_YEAR);
                 args.add(String.valueOf(searchModel.getYear()));
+            }
+            if (searchModel.getCardNum() > 0) {
+                selection += String.format("AND %s = ? ", CardsContract.CardsEntry.COLUMN_NAME_CARD_NUM);
+                args.add(String.valueOf(searchModel.getCardNum()));
             }
             int count = 0;
             db = this.getReadableDatabase();
@@ -833,6 +842,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CardsContract.CardsEntry.COLUMN_NAME_NOTES,
             CardsContract.CardsEntry.COLUMN_NAME_VALUE,
             CardsContract.CardsEntry.COLUMN_NAME_YEAR,
+            CardsContract.CardsEntry.COLUMN_NAME_CARD_NUM,
             CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE,
             CardsContract.CardsEntry.COLUMN_NAME_CONDITION_CODE
         };
@@ -859,6 +869,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 temp = c.getString(n++);
                 if (temp != null && temp.length() > 0) {
                     card.setYear(Integer.valueOf(temp));
+                }
+
+                temp = c.getString(n++);
+                if (temp != null && temp.length() > 0) {
+                    card.setCardNum(Integer.valueOf(temp));
                 }
 
                 temp = c.getString(n++);
@@ -902,6 +917,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CardsContract.CardsEntry.COLUMN_NAME_POSITION_CODE + " TEXT COLLATE NOCASE, " +
             CardsContract.CardsEntry.COLUMN_NAME_VALUE + " FLOAT, " +
             CardsContract.CardsEntry.COLUMN_NAME_YEAR + " INT, " +
+            CardsContract.CardsEntry.COLUMN_NAME_CARD_NUM + " INT, " +
             CardsContract.CardsEntry.COLUMN_NAME_NOTES + " TEXT COLLATE NOCASE, " +
             CardsContract.CardsEntry.COLUMN_NAME_CONDITION_CODE + " INT " +
 //            CardsContract.CardsEntry.COLUMN_NAME_FRONT_IMAGE_PATH + " TEXT, " +
@@ -963,6 +979,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CardsContract.SearchModel.COLUMN_NAME_TEAM_NAME + " TEXT COLLATE NOCASE, " +
             CardsContract.SearchModel.COLUMN_NAME_COMPANY + " TEXT COLLATE NOCASE, " +
             CardsContract.SearchModel.COLUMN_NAME_YEAR + " INT, " +
+            CardsContract.SearchModel.COLUMN_NAME_CARD_NUM + " INT, " +
             CardsContract.SearchModel.COLUMN_NAME_CONDITION + " INT, " +
             CardsContract.SearchModel.COLUMN_NAME_POSITION + " INT)";
 

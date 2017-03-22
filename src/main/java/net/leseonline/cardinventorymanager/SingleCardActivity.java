@@ -201,6 +201,7 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
 
         @Override
         public void onLongPress(MotionEvent e) {
+            Utilities.playClick(SingleCardActivity.this);
             Intent intent = new Intent(SingleCardActivity.this, CaptureDataActivity.class);
             intent.putExtra(getResources().getString(R.string.extra_unique_id), -mUniqueCardId);
             startActivityForResult(intent, CAPTURE_DATA_REQUEST);

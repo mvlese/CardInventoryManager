@@ -187,25 +187,6 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         // do nothing
     }
 
-    private void playPageFlip() {
-        if(mMediaPlayer.isPlaying())
-        {
-            mMediaPlayer.stop();
-        }
-
-        try {
-            mMediaPlayer.reset();
-            AssetFileDescriptor afd = getAssets().openFd("page-flip-4.mp3");
-            mMediaPlayer.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-            mMediaPlayer.prepare();
-            mMediaPlayer.start();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         private static final String DEBUG_TAG = "Gestures";
 
@@ -224,7 +205,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
             float x2 = event2.getX();
             float delta = x1 - x2;
             if (Math.abs(delta) > MIN_DELTA) {
-                playPageFlip();
+                Utilities.playPageFlip(BinderActivity.this);
                 if (x1 > x2) {
                     // swipe left, next
                     mGridView.setAdapter(new ImageAdapter(BinderActivity.this, mStrArr, mColumnWidth, mColumnHeight));

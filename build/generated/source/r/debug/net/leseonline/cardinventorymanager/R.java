@@ -2363,7 +2363,6 @@ containing a value of this type.
         public static final int action_mode_bar=0x7f0d0059;
         public static final int action_mode_bar_stub=0x7f0d0058;
         public static final int action_mode_close_button=0x7f0d003e;
-        public static final int action_rotate=0x7f0d00cb;
         public static final int action_search=0x7f0d00c8;
         public static final int action_settings=0x7f0d00c9;
         public static final int activity_chooser_view_content=0x7f0d003f;

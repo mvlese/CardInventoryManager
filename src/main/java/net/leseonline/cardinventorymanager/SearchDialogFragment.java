@@ -4,14 +4,19 @@ import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
@@ -72,16 +77,24 @@ public class SearchDialogFragment extends DialogFragment {
         int posIdx = mPositionsSpinnerArrayAdapter.getPosition(model.getPosition());
 
         EditText et = (EditText)mRootView.findViewById(R.id.first_name_edit);
+        et.addTextChangedListener(filterTextWatcher);
         et.setText(model.getFirstName());
+
         et = (EditText)mRootView.findViewById(R.id.last_name_edit);
+        et.addTextChangedListener(filterTextWatcher);
         et.setText(model.getLastName());
+
         et = (EditText)mRootView.findViewById(R.id.team_edit);
+        et.addTextChangedListener(filterTextWatcher);
         et.setText(model.getTeamName());
+
         et = (EditText)mRootView.findViewById(R.id.company_edit);
+        et.addTextChangedListener(filterTextWatcher);
         et.setText(model.getCompany());
 
         String cardNum = "";
         et = (EditText)mRootView.findViewById(R.id.card_num_edit);
+        et.addTextChangedListener(filterTextWatcher);
         if (model.getCardNum() > 0) {
             cardNum = String.valueOf(model.getCardNum());
         }
@@ -89,15 +102,18 @@ public class SearchDialogFragment extends DialogFragment {
 
         String year = "";
         et = (EditText)mRootView.findViewById(R.id.year_edit);
+        et.addTextChangedListener(filterTextWatcher);
         if (model.getYear() != Integer.MIN_VALUE) {
             year = String.valueOf(model.getYear());
         }
         et.setText(year);
 
         Spinner spinner = (Spinner)mRootView.findViewById(R.id.position_spinner);
+        spinner.setOnItemSelectedListener(spinnerOnItemSelectedListener);
         spinner.setSelection(posIdx);
 
         spinner = (Spinner)mRootView.findViewById(R.id.condition_spinner);
+        spinner.setOnItemSelectedListener(spinnerOnItemSelectedListener);
         spinner.setSelection(condIdx);
 
         Button button = (Button) mRootView.findViewById(R.id.cancel_button);
@@ -200,5 +216,63 @@ public class SearchDialogFragment extends DialogFragment {
         dismiss();
     }
 
+    private void checkIsSearchable() {
+        boolean isSearching = false;
 
+        EditText et = (EditText)mRootView.findViewById(R.id.first_name_edit);
+        isSearching |= et.getText().length() > 0;
+
+        et = (EditText)mRootView.findViewById(R.id.last_name_edit);
+        isSearching |= et.getText().length() > 0;
+
+        et = (EditText)mRootView.findViewById(R.id.team_edit);
+        isSearching |= et.getText().length() > 0;
+
+        et = (EditText)mRootView.findViewById(R.id.company_edit);
+        isSearching |= et.getText().length() > 0;
+
+        et = (EditText)mRootView.findViewById(R.id.card_num_edit);
+        isSearching |= et.getText().length() > 0;
+
+        et = (EditText)mRootView.findViewById(R.id.year_edit);
+        isSearching |= et.getText().length() > 0;
+
+        Spinner spinner = (Spinner)mRootView.findViewById(R.id.position_spinner);
+        isSearching |= spinner.getSelectedItemPosition() > 0;
+
+        spinner = (Spinner)mRootView.findViewById(R.id.condition_spinner);
+        isSearching |= spinner.getSelectedItemPosition() > 0;
+
+        Button btn = (Button)mRootView.findViewById(R.id.search_button);
+        btn.setText(isSearching ? "Search" : "Close");
+    }
+
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            checkIsSearchable();
+        }
+    };
+
+    private Spinner.OnItemSelectedListener spinnerOnItemSelectedListener = new Spinner.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            checkIsSearchable();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            checkIsSearchable();
+        }
+    };
 }

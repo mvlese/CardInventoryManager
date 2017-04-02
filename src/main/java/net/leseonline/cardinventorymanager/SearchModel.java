@@ -87,4 +87,17 @@ public class SearchModel {
     public void setCardNum(int cardNum) {
         mCardNum = cardNum;
     }
+
+    public boolean isFiltered() {
+        boolean result =
+            (mFirstName != null && mFirstName.length() > 0) ||
+            (mLastName != null && mLastName.length() > 0) ||
+            (mCompany != null && mCompany.length() > 0) ||
+            (mTeamName != null && mTeamName.length() > 0) ||
+            mCondition != Card.Condition.None ||
+            mPosition != BaseballCard.Position.None ||
+            mYear != Integer.MIN_VALUE ||
+            mCardNum != Integer.MIN_VALUE;
+        return result;
+    }
 }

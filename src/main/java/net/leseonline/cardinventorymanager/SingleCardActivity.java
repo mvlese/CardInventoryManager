@@ -91,13 +91,14 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
         if (ids.size() > 0) {
             BaseballCard card = mDatabaseHelper.find(ids.get(mCurrentIndex));
             if (card != null) {
+                boolean isFiltered = mDatabaseHelper.getSearchModel().isFiltered();
                 isFound = true;
                 tv.setVisibility(View.VISIBLE);
                 mUniqueCardId = card.getUniqueId();
                 File file  = getImageFile(mIsFront);
                 iv.setImageDrawable(Drawable.createFromPath(file.getPath()));
                 String title = mIsFront ? "Front View" : "Back View";
-                title += String.format(" (%d of %d)", mCurrentIndex + 1, ids.size());
+                title += String.format(" (%d of %d) %s", mCurrentIndex + 1, ids.size(), isFiltered ? "Filtered" : "");
                 tv.setText(title);
             }
         }
@@ -130,11 +131,7 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_rotate) {
-            mIsFront = !mIsFront;
-            showCard();
-            return true;
-        } else if (id == R.id.action_search) {
+    if (id == R.id.action_search) {
             FragmentManager fm = getFragmentManager();
             SearchDialogFragment dialogFragment = new SearchDialogFragment();
             dialogFragment.show(fm, "Search");
@@ -192,6 +189,13 @@ public class SingleCardActivity extends AppCompatActivity implements SearchDialo
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         private static final String DEBUG_TAG = "Gestures";
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            mIsFront = !mIsFront;
+            showCard();
+            return true;
+        }
 
         @Override
         public boolean onDown(MotionEvent event) {

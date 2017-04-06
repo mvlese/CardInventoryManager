@@ -44,12 +44,12 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_textfield_search_material.xml"
     },
     {
-        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc9.jpg",
-        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc9.jpg"
-    },
-    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_light.xml",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_dialog_material_background_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc9.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc9.jpg"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
@@ -88,6 +88,10 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_btn_check_material.xml"
     },
     {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\color_baloons.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\color_baloons.jpg"
+    },
+    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_cab_background_top_material.xml"
     },
@@ -100,8 +104,16 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\the_mick.jpg"
     },
     {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\natural_wall.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\natural_wall.jpg"
+    },
+    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\camera.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\camera.jpg"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\swipe_right.png",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\swipe_right.png"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc8.jpg",
@@ -176,6 +188,10 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\search.png"
     },
     {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\lightning.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\lightning.jpg"
+    },
+    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\binder.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\binder.jpg"
     },
@@ -188,12 +204,12 @@
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_seekbar_track_material.xml"
     },
     {
-        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc1.jpg",
-        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc1.jpg"
-    },
-    {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc7.jpg",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc7.jpg"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\bc1.jpg",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\bc1.jpg"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_small_material.xml",
@@ -206,6 +222,10 @@
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
         "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.2.1\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\swipe_left.png",
+        "source": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\src\\main\\res\\drawable\\swipe_left.png"
     },
     {
         "merged": "C:\\Users\\mlese\\Documents\\school\\ACS564\\project\\CardInventoryManager\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\design_fab_background.xml",

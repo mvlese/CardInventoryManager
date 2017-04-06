@@ -68,4 +68,8 @@
     <string name="search_team_name_hint">(use * for wildcard)</string>
     <string name="search_company_hint">(use * for wildcard)</string>
 
+    <string name="lightning">Natural Lightning</string>
+    <string name="color_baloons">Color Baloons</string>
+    <string name="natural_wall">Natural Wall</string>
+
 </resources>

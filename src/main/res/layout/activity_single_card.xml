@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="net.leseonline.cardinventorymanager.SingleCardActivity">
+    tools:context="net.leseonline.cardinventorymanager.SingleCardActivityAnim">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,6 +22,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_single_card"/>
+    <include layout="@layout/content_single_card_anim"/>
 
 </android.support.design.widget.CoordinatorLayout>

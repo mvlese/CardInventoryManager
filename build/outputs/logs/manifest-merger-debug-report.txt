@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:2:1-85:12
+ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:2:1-91:12
 	package
 		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:2:11-56
 		INJECTED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml
@@ -32,7 +32,7 @@ ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\a
 	android:name
 		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:10:9-47
 application
-ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:13:5-83:19
+ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:13:5-89:19
 MERGED from [com.android.support:appcompat-v7:23.2.1] C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-v4:23.2.1] C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.2.1\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.2.1] C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.2.1\AndroidManifest.xml:7:5-20
@@ -149,23 +149,33 @@ ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\a
 		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:70:13-56
 	android:name
 		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:67:13-47
-activity#net.leseonline.cardinventorymanager.SettingsActivity
+activity#net.leseonline.cardinventorymanager.SingleCardActivityAnim
 ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:72:9-77:20
 	android:screenOrientation
 		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:75:13-49
 	android:label
-		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:74:13-45
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:74:13-48
 	android:theme
 		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:76:13-56
 	android:name
-		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:73:13-45
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:73:13-51
+activity#net.leseonline.cardinventorymanager.SettingsActivity
+ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:78:9-83:20
+	android:screenOrientation
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:81:13-49
+	android:label
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:80:13-45
+	android:theme
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:82:13-56
+	android:name
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:79:13-45
 meta-data#com.google.android.gms.version
-ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:80:9-82:68
+ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:86:9-88:68
 MERGED from [com.google.android.gms:play-services-basement:8.1.0] C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\AndroidManifest.xml:21:9-23:69
 	android:value
-		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:82:13-66
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:88:13-66
 	android:name
-		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:81:13-58
+		ADDED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml:87:13-58
 uses-sdk
 INJECTED from C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.2.1] C:\Users\mlese\Documents\school\ACS564\project\CardInventoryManager\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.2.1\AndroidManifest.xml:21:5-23:78

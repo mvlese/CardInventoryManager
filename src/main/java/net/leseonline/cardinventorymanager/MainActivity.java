@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             @Override
             public void onClick(View v) {
                 Utilities.playClick(MainActivity.this);
-                Intent intent = new Intent(MainActivity.this, SingleCardActivity.class);
+                Intent intent = new Intent(MainActivity.this, SingleCardActivityAnim.class);
                 startActivity(intent);
             }
         });

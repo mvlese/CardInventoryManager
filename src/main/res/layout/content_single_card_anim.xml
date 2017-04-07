@@ -24,6 +24,7 @@
                 android:src="@drawable/lightning" />
 
             <TextView
+                android:id="@+id/text_view_anim_left"
                 style="@style/ImageTitle"
                 android:text="@string/lightning" />
         </RelativeLayout>
@@ -42,6 +43,7 @@
                 android:src="@drawable/color_baloons" />
 
             <TextView
+                android:id="@+id/text_view_anim_center"
                 style="@style/ImageTitle"
                 android:text="@string/color_baloons" />
         </RelativeLayout>
@@ -60,6 +62,7 @@
                 android:src="@drawable/natural_wall" />
 
             <TextView
+                android:id="@+id/text_view_anim_right"
                 style="@style/ImageTitle"
                 android:text="@string/natural_wall" />
         </RelativeLayout>

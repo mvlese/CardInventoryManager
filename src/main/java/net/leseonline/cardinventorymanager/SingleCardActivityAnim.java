@@ -25,9 +25,12 @@ import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SingleCardActivityAnim extends AppCompatActivity implements SearchDialogFragment.ISearchDialogListener {
+public class SingleCardActivityAnim extends AppCompatActivity implements
+        SearchDialogFragment.ISearchDialogListener,
+        CaptureDataDialogFragment.ICaptureDataDialogListener {
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private final static int CAPTURE_DATA_REQUEST = 6;
     private ViewFlipper mViewFlipper;
     private Context mContext;
     private ArrayList<Integer> mIndices;
@@ -36,6 +39,7 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
     private DatabaseHelper mDatabaseHelper;
     private ArrayList<Long> mIds;
     private ArrayList<Long> mResourceIds;
+    private ArrayList<Long> mTextViewIds;
     private int mUniqueCardId;
     private boolean mIsFront;
     private final GestureDetector detector = new GestureDetector(new SwipeGestureDetector());
@@ -44,9 +48,13 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_card);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         mContext = this;
         mIndices = new ArrayList<>();
         mResourceIds = new ArrayList<>();
+        mTextViewIds = new ArrayList<>();
         mCurrentIndex = 0;
         mCurrentResourceIndex = 0;
         mUniqueCardId = 0;
@@ -54,9 +62,13 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
         mDatabaseHelper = new DatabaseHelper(this);
         mIds = mDatabaseHelper.search();
 
-        mResourceIds.add((long) R.id.view_anim_left);
-        mResourceIds.add((long) R.id.view_anim_center);
-        mResourceIds.add((long) R.id.view_anim_right);
+        mResourceIds.add((long)R.id.view_anim_left);
+        mResourceIds.add((long)R.id.view_anim_center);
+        mResourceIds.add((long)R.id.view_anim_right);
+
+        mTextViewIds.add((long)R.id.text_view_anim_left);
+        mTextViewIds.add((long)R.id.text_view_anim_center);
+        mTextViewIds.add((long)R.id.text_view_anim_right);
 
         setCards();
         mViewFlipper = (ViewFlipper) this.findViewById(R.id.view_flipper);
@@ -67,6 +79,44 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_single, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+            FragmentManager fm = getFragmentManager();
+            SearchDialogFragment dialogFragment = new SearchDialogFragment();
+            dialogFragment.show(fm, "Search");
+            return true;
+        } else if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAPTURE_DATA_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                BaseballCard card = CaptureDataActivity.getCard();
+                mDatabaseHelper.updateCard(card);
+            }
+        }
     }
 
     private void setCard(int cardIdx, int resourceIdx) {
@@ -82,6 +132,10 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
                 File file = getImageFile(mIsFront);
                 ImageView iv = (ImageView)findViewById(mResourceIds.get(resourceIdx).intValue());
                 iv.setImageDrawable(Drawable.createFromPath(file.getPath()));
+                String title = mIsFront ? "Front View" : "Back View";
+                title += String.format(" (%d of %d) %s", cardIdx + 1, mIds.size(), isFiltered ? "Filtered" : "");
+                TextView tv = (TextView)findViewById(mTextViewIds.get(resourceIdx).intValue());
+                tv.setText(title);
             }
         }
     }
@@ -104,6 +158,16 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
     }
 
     class SwipeGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        private static final String DEBUG_TAG = "Gestures";
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            mIsFront = !mIsFront;
+            setCards();
+            return true;
+        }
+
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             try {
@@ -126,6 +190,24 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
                     return true;
                 }
 
+                // top to down swipe or down to top swipe
+                if ((e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) ||
+                    (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) )
+                {
+                    // show data
+                    Utilities.playClick(SingleCardActivityAnim.this);
+//                    Intent intent = new Intent(SingleCardActivityAnim.this, CaptureDataActivity.class);
+//                    intent.putExtra(getResources().getString(R.string.extra_unique_id), -mUniqueCardId);
+//                    startActivityForResult(intent, CAPTURE_DATA_REQUEST);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("uniqueId", -mUniqueCardId);
+                    FragmentManager fm = getFragmentManager();
+                    CaptureDataDialogFragment fragment = new CaptureDataDialogFragment();
+                    fragment.setArguments(bundle);
+                    fragment.show(fm, "Capture Data");
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -136,12 +218,19 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
 
     @Override
     public void onSearchDialogPositiveAction(SearchDialogFragment dialog) {
-
+        SearchModel model = dialog.getSearchModel();
+        mDatabaseHelper.saveSearchModel(model);
+        mIds = mDatabaseHelper.search();
+        mCurrentIndex = 0;
+        mUniqueCardId = 0;
+        mCurrentResourceIndex = 0;
+        mIsFront = true;
+        setCards();
     }
 
     @Override
     public void onSearchDialogNegativeAction(SearchDialogFragment dialog) {
-
+        // do nothing
     }
 
     private File getImageFile(Boolean isFront) {
@@ -151,4 +240,13 @@ public class SingleCardActivityAnim extends AppCompatActivity implements SearchD
         return photoFile;
     }
 
+    @Override
+    public void onCaptureDataDialogPositiveAction(CaptureDataDialogFragment dialog) {
+
+    }
+
+    @Override
+    public void onCaptureDataDialogNegativeAction(CaptureDataDialogFragment dialog) {
+
+    }
 }

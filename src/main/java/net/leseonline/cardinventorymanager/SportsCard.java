@@ -44,4 +44,8 @@ public abstract class SportsCard extends Card {
     public void setYear(int year) {
         mYear = year;
     }
+
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
 }

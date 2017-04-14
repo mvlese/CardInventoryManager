@@ -15,12 +15,14 @@
             android:layout_height="fill_parent">
 
             <ImageView
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"
                 android:id="@+id/view_anim_left"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/lightning" />
 
             <TextView
@@ -32,14 +34,15 @@
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-
             <ImageView
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"
                 android:id="@+id/view_anim_center"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/color_baloons" />
 
             <TextView
@@ -53,12 +56,14 @@
             android:layout_height="fill_parent">
 
             <ImageView
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"
                 android:id="@+id/view_anim_right"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/natural_wall" />
 
             <TextView

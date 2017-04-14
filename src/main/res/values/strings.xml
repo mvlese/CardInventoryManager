@@ -35,7 +35,7 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="card_num">Card #</string>
-    
+
     <string name="single_card_view">Single Card View</string>
     <string name="multi_view">Multi-Card View</string>
     <string name="enter_data_view">Enter Data</string>
@@ -71,5 +71,6 @@
     <string name="lightning">Natural Lightning</string>
     <string name="color_baloons">Color Baloons</string>
     <string name="natural_wall">Natural Wall</string>
+    <string name="title_activity_capture_photo">CapturePhotoActivity</string>
 
 </resources>

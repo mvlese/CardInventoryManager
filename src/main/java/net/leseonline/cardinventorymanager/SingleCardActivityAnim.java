@@ -26,8 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class SingleCardActivityAnim extends AppCompatActivity implements
-        SearchDialogFragment.ISearchDialogListener,
-        CaptureDataDialogFragment.ICaptureDataDialogListener {
+        SearchDialogFragment.ISearchDialogListener {
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private final static int CAPTURE_DATA_REQUEST = 6;
@@ -124,26 +123,27 @@ public class SingleCardActivityAnim extends AppCompatActivity implements
         //      currentIndex-1 -> currentResourceIndex-1
         //      currentIndex -> currentResourceIndex
         //      currentIndex+1 -> currentResourceIndex+1
-        if (mIds.size() > 0) {
-            BaseballCard card = mDatabaseHelper.find(mIds.get(cardIdx));
-            if (card != null) {
-                boolean isFiltered = mDatabaseHelper.getSearchModel().isFiltered();
-                mUniqueCardId = card.getUniqueId();
-                File file = getImageFile(mIsFront);
-                ImageView iv = (ImageView)findViewById(mResourceIds.get(resourceIdx).intValue());
-                iv.setImageDrawable(Drawable.createFromPath(file.getPath()));
-                String title = mIsFront ? "Front View" : "Back View";
-                title += String.format(" (%d of %d) %s", cardIdx + 1, mIds.size(), isFiltered ? "Filtered" : "");
-                TextView tv = (TextView)findViewById(mTextViewIds.get(resourceIdx).intValue());
-                tv.setText(title);
-            }
+        BaseballCard card = mDatabaseHelper.find(mIds.get(cardIdx));
+        if (card != null) {
+            boolean isFiltered = mDatabaseHelper.getSearchModel().isFiltered();
+            mUniqueCardId = card.getUniqueId();
+            File file = getImageFile(mIsFront);
+            ImageView iv = (ImageView)findViewById(mResourceIds.get(resourceIdx).intValue());
+            iv.setImageDrawable(Drawable.createFromPath(file.getPath()));
+            String title = card.getFullName();
+            title += mIsFront ? " - Front View" : " - Back View";
+            title += String.format(" (%d of %d) %s", cardIdx + 1, mIds.size(), isFiltered ? "Filtered" : "");
+            TextView tv = (TextView)findViewById(mTextViewIds.get(resourceIdx).intValue());
+            tv.setText(title);
         }
     }
 
     private void setCards() {
-        setCard(decrement(mCurrentIndex, mIds), decrement(mCurrentResourceIndex, mResourceIds));
-        setCard(mCurrentIndex, mCurrentResourceIndex);
-        setCard(increment(mCurrentIndex, mIds), increment(mCurrentResourceIndex, mResourceIds));
+        if (mIds.size() > 0) {
+            setCard(decrement(mCurrentIndex, mIds), decrement(mCurrentResourceIndex, mResourceIds));
+            setCard(mCurrentIndex, mCurrentResourceIndex);
+            setCard(increment(mCurrentIndex, mIds), increment(mCurrentResourceIndex, mResourceIds));
+        }
     }
 
     private int increment(int idx, ArrayList<Long> array) {
@@ -200,8 +200,9 @@ public class SingleCardActivityAnim extends AppCompatActivity implements
 //                    intent.putExtra(getResources().getString(R.string.extra_unique_id), -mUniqueCardId);
 //                    startActivityForResult(intent, CAPTURE_DATA_REQUEST);
 
+                    int idx = mIds.get(mCurrentIndex).intValue();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("uniqueId", -mUniqueCardId);
+                    bundle.putInt("uniqueId", -idx);
                     FragmentManager fm = getFragmentManager();
                     CaptureDataDialogFragment fragment = new CaptureDataDialogFragment();
                     fragment.setArguments(bundle);
@@ -240,13 +241,4 @@ public class SingleCardActivityAnim extends AppCompatActivity implements
         return photoFile;
     }
 
-    @Override
-    public void onCaptureDataDialogPositiveAction(CaptureDataDialogFragment dialog) {
-
-    }
-
-    @Override
-    public void onCaptureDataDialogNegativeAction(CaptureDataDialogFragment dialog) {
-
-    }
 }

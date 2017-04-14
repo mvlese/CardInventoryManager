@@ -202,63 +202,10 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TAKE_PICTURE_REQUEST) {
-            // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                // Do something
-                // If CAPTURE_FRONT, then save front image, change state to CAPTURE_BACK
-                // If CAPTURE_BACK, then save back image, change state to CAPTURE_DATA
-                switch (mCameraState) {
-                    case CAPTURE_IDLE:
-                        break;
-                    case CAPTURE_FRONT:
-                        revokeWriteUriPermission();
-                        mCameraState = CameraState.CAPTURE_BACK;
-//                        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                        captureImage(captureImage, false);
-                        captureImage(false);
-                        break;
-                    case CAPTURE_BACK:
-                        mCameraState = CameraState.CAPTURE_DATA;
-                        revokeWriteUriPermission();
-                        Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
-                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
-                        startActivityForResult(intent, CAPTURE_DATA_REQUEST);
-                        break;
-                    case CAPTURE_DATA:
-                        mCameraState = CameraState.CAPTURE_IDLE;
-                        break;
-                    case CAPTURE_COMPLETE:
-                        break;
-                    default:
-                        break;
-                }
-            } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(MainActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
-                // Do something else
-                // If CAPTURE_FRONT, then change state to CAPTURE_IDLE.
-                // If CAPTURE_BACK, then prompt to keep front.  If keep front, save front, CHANGE_STATE to CAPTURE_DATA.
-                switch (mCameraState) {
-                    case CAPTURE_IDLE:
-                        break;
-                    case CAPTURE_FRONT:
-                        mDatabaseHelper.deleteCardRecord(mUniqueCardId);
-                        revokeWriteUriPermission();
-                        mCameraState = CameraState.CAPTURE_IDLE;
-                        break;
-                    case CAPTURE_BACK:
-                        mCameraState = CameraState.CAPTURE_DATA;
-                        revokeWriteUriPermission();
-                        Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
-                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
-                        startActivityForResult(intent, CAPTURE_DATA_REQUEST);
-                    case CAPTURE_DATA:
-                        mCameraState = CameraState.CAPTURE_IDLE;
-                        break;
-                    case CAPTURE_COMPLETE:
-                        break;
-                    default:
-                        break;
-                }
+                Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
+                intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
+                startActivityForResult(intent, CAPTURE_DATA_REQUEST);
             }
         } else if (requestCode == CAPTURE_DATA_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -270,6 +217,76 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
             }
             mCameraState = CameraState.CAPTURE_IDLE;
         }
+
+//        if (requestCode == TAKE_PICTURE_REQUEST) {
+//            // Make sure the request was successful
+//            if (resultCode == RESULT_OK) {
+//                // Do something
+//                // If CAPTURE_FRONT, then save front image, change state to CAPTURE_BACK
+//                // If CAPTURE_BACK, then save back image, change state to CAPTURE_DATA
+//                switch (mCameraState) {
+//                    case CAPTURE_IDLE:
+//                        break;
+//                    case CAPTURE_FRONT:
+//                        revokeWriteUriPermission();
+//                        mCameraState = CameraState.CAPTURE_BACK;
+////                        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+////                        captureImage(captureImage, false);
+//                        captureImage(false);
+//                        break;
+//                    case CAPTURE_BACK:
+//                        mCameraState = CameraState.CAPTURE_DATA;
+//                        revokeWriteUriPermission();
+//                        Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
+//                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
+//                        startActivityForResult(intent, CAPTURE_DATA_REQUEST);
+//                        break;
+//                    case CAPTURE_DATA:
+//                        mCameraState = CameraState.CAPTURE_IDLE;
+//                        break;
+//                    case CAPTURE_COMPLETE:
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            } else if (resultCode == RESULT_CANCELED) {
+//                Toast.makeText(MainActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+//                // Do something else
+//                // If CAPTURE_FRONT, then change state to CAPTURE_IDLE.
+//                // If CAPTURE_BACK, then prompt to keep front.  If keep front, save front, CHANGE_STATE to CAPTURE_DATA.
+//                switch (mCameraState) {
+//                    case CAPTURE_IDLE:
+//                        break;
+//                    case CAPTURE_FRONT:
+//                        mDatabaseHelper.deleteCardRecord(mUniqueCardId);
+//                        revokeWriteUriPermission();
+//                        mCameraState = CameraState.CAPTURE_IDLE;
+//                        break;
+//                    case CAPTURE_BACK:
+//                        mCameraState = CameraState.CAPTURE_DATA;
+//                        revokeWriteUriPermission();
+//                        Intent intent = new Intent(MainActivity.this, CaptureDataActivity.class);
+//                        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
+//                        startActivityForResult(intent, CAPTURE_DATA_REQUEST);
+//                    case CAPTURE_DATA:
+//                        mCameraState = CameraState.CAPTURE_IDLE;
+//                        break;
+//                    case CAPTURE_COMPLETE:
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        } else if (requestCode == CAPTURE_DATA_REQUEST) {
+//            if (resultCode == RESULT_OK) {
+//                setValueText();
+//            } else if (resultCode == RESULT_CANCELED) {
+//                mDatabaseHelper.deleteCardRecord(mUniqueCardId);
+//                deleteFiles();
+//                mCameraState = CameraState.CAPTURE_IDLE;
+//            }
+//            mCameraState = CameraState.CAPTURE_IDLE;
+//        }
     }
 
     @Override
@@ -353,9 +370,9 @@ public class MainActivity extends AppCompatActivity implements  AdminPwDialogFra
 //        }
 //        startActivityForResult(intent, TAKE_PICTURE_REQUEST);
 
-        Intent intent = new Intent(getApplicationContext(), AndroidCameraApi.class);
-        int extraData = isFront ? mUniqueCardId : -mUniqueCardId;
-        intent.putExtra(getResources().getString(R.string.extra_unique_id), extraData);
+        Intent intent = new Intent(getApplicationContext(), CapturePhotoActivity.class);
+//        int extraData = isFront ? mUniqueCardId : -mUniqueCardId;
+        intent.putExtra(getResources().getString(R.string.extra_unique_id), mUniqueCardId);
         startActivityForResult(intent, TAKE_PICTURE_REQUEST);
     }
 

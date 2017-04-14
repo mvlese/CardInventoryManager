@@ -385,6 +385,7 @@
     <string name="title_activity_binder">Card Inventory Manager</string>
     <string name="title_activity_capture">Card Inventory Manager</string>
     <string name="title_activity_capture_data">Card Inventory Manager</string>
+    <string name="title_activity_capture_photo">CapturePhotoActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_single_card">SingleCardActivity</string>
     <string name="value">Value</string>

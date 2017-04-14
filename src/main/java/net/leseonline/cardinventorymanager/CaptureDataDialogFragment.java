@@ -35,17 +35,6 @@ public class CaptureDataDialogFragment extends DialogFragment implements EditNot
     private FragmentManager mFragmentManager;
     private EditNotesDialogFragment mEditNotesDialogFragment;
     private BaseballCard mEditableCard;
-    private ICaptureDataDialogListener mListener = null;
-
-    /**
-     * This interface provides feedback to the caller.
-     */
-    public interface ICaptureDataDialogListener {
-        public void onCaptureDataDialogPositiveAction(CaptureDataDialogFragment dialog);
-
-        public void onCaptureDataDialogNegativeAction(CaptureDataDialogFragment dialog);
-    }
-
     public CaptureDataDialogFragment() {
         super();
     }
@@ -54,22 +43,6 @@ public class CaptureDataDialogFragment extends DialogFragment implements EditNot
     public void setArguments(Bundle args) {
         super.setArguments(args);
         mUniqueId = args.getInt("uniqueId", -1);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        // Verify that the host activity implements the callback interface
-        try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
-            if (activity instanceof ICaptureDataDialogListener) {
-                mListener = (ICaptureDataDialogListener) activity;
-            }
-        } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(activity.toString()
-                    + " must implement IAddTeamDialogListener");
-        }
     }
 
     @Override
@@ -107,7 +80,7 @@ public class CaptureDataDialogFragment extends DialogFragment implements EditNot
             @Override
             public void onClick(View v) {
                 Utilities.playClick(v.getContext());
-                notifyListener(false);
+                dismiss();
             }
         });
 
@@ -141,7 +114,7 @@ public class CaptureDataDialogFragment extends DialogFragment implements EditNot
                     // New card
                     mDatabaseHelper.addCard(mCard);
                 }
-                notifyListener(true);
+                dismiss();
             }
         });
 
@@ -192,17 +165,6 @@ public class CaptureDataDialogFragment extends DialogFragment implements EditNot
         }
 
         return mRootView;
-    }
-
-    private void notifyListener(boolean isOk) {
-        if (mListener != null) {
-            if (isOk) {
-                mListener.onCaptureDataDialogPositiveAction(this);
-            } else {
-                mListener.onCaptureDataDialogNegativeAction(this);
-            }
-        }
-        dismiss();
     }
 
     @Override

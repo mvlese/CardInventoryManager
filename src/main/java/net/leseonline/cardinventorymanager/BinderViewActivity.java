@@ -59,23 +59,21 @@ public class BinderViewActivity extends AppCompatActivity {
 
         mGridView.setNumColumns(column);// set your  column number what you want
         int arrSize = column * column ;
-        String[] str_arr = new String[arrSize];
-        for(int i = 0; i < arrSize; i++){
-            str_arr[i] = String.valueOf(i);
-        }
+
+        long[] ids = getPageIds();
         int column_width = mDisplayWidth / column ;
         int column_height = mRequiredHeight / column ;
-        mGridView.setAdapter(new ImageAdapter(this, str_arr,column_width,column_height));
+        mGridView.setAdapter(new ImageAdapter(this, ids, column_width, column_height));
         enableDisableView(mGridView, false);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        String.valueOf(position), Toast.LENGTH_SHORT).show();
-
-            }
-        });
+//        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View v,
+//                                    int position, long id) {
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        String.valueOf(position), Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 
     @Override
@@ -109,5 +107,9 @@ public class BinderViewActivity extends AppCompatActivity {
         styledAttributes.recycle();
 
         return result + mActionBarSize;
+    }
+
+    private long[] getPageIds() {
+        return new long[0];
     }
 }

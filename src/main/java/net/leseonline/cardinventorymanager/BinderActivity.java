@@ -41,8 +41,10 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
     private int mColumnHeight;
     private GridView mGridView;
     private GestureDetectorCompat mDetector;
-    private String[] mStrArr;
     private DatabaseHelper mDatabaseHelper;
+    private int mPage;
+    private int mNumPages;
+    private ArrayList<Long> mIds;
 
     private static int Width = 586;
     private static int Height = 784;
@@ -58,6 +60,9 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDatabaseHelper = new DatabaseHelper(this);
+        mIds = mDatabaseHelper.search();
+        mPage = 1;
+        mNumPages = mIds.size() / 9;
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -81,26 +86,14 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         mGridView.setPadding(leftPad, topPad, rightPad, topPad);
 
         mGridView.setNumColumns(column);// set your  column number what you want
-        int arrSize = column * column ;
-        mStrArr = new String[arrSize];
-        for(int i = 0; i < arrSize; i++){
-            mStrArr[i] = String.valueOf(i);
-        }
         mColumnWidth = mDisplayWidth / column ;
         mColumnHeight = mRequiredHeight / column ;
-        mGridView.setAdapter(new ImageAdapter(this, mStrArr, mColumnWidth, mColumnHeight));
+        long[] ids = getPageIds();
+
+        mGridView.setAdapter(new ImageAdapter(this, ids, mColumnWidth, mColumnHeight));
         enableDisableView(mGridView, false);
         mGridView.setSoundEffectsEnabled(true);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                Log.d("Gestures", "onItemClick");
-//                Toast.makeText(
-//                        getApplicationContext(),
-//                        String.valueOf(position), Toast.LENGTH_SHORT).show();
 
-            }
-        });
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
     }
@@ -208,13 +201,17 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
                 Utilities.playPageFlip(BinderActivity.this);
                 if (x1 > x2) {
                     // swipe left, next
-                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, mStrArr, mColumnWidth, mColumnHeight));
+                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, new long[0], mColumnWidth, mColumnHeight));
                 } else {
                     // swipe right, prev
-                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, mStrArr, mColumnWidth, mColumnHeight));
+                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, new long[0], mColumnWidth, mColumnHeight));
                 }
             }
             return true;
         }
+    }
+
+    private long[] getPageIds() {
+        return new long[0];
     }
 }

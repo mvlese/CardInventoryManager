@@ -103,13 +103,13 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
 //        enableDisableView(mGridView, false);
 //        mGridView.setSoundEffectsEnabled(true);
 //
-//        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-//        this.mDetector.onTouchEvent(event);
+        this.mDetector.onTouchEvent(event);
 //        Log.d("Gestures", "onTouch: " + event.toString());
         return super.dispatchTouchEvent(event);
     }
@@ -195,7 +195,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         @Override
         public boolean onDown(MotionEvent event) {
             Log.d(DEBUG_TAG, "onDown: " + event.toString());
-            return true;
+            return false;
         }
 
         @Override
@@ -210,10 +210,12 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
                 Utilities.playPageFlip(BinderActivity.this);
                 if (x1 > x2) {
                     // swipe left, next
-                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, R.id.grid_item_image, null, mColumnWidth, mColumnHeight));
+                    Toast.makeText(BinderActivity.this, "Swipe Left", Toast.LENGTH_SHORT).show();
+//                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, R.id.grid_item_image, null, mColumnWidth, mColumnHeight));
                 } else {
                     // swipe right, prev
-                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, R.id.grid_item_image, null, mColumnWidth, mColumnHeight));
+                    Toast.makeText(BinderActivity.this, "Swipe Right", Toast.LENGTH_SHORT).show();
+//                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, R.id.grid_item_image, null, mColumnWidth, mColumnHeight));
                 }
             }
             return true;

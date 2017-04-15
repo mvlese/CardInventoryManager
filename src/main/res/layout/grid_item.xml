@@ -3,7 +3,7 @@
               android:id="@+id/lin"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:background="@color/light_gray"
+              android:background="@color/white"
               android:orientation="horizontal"
               android:padding="5dp" >
 
@@ -12,10 +12,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:clickable="true"
-        android:focusable="false"
+        android:src="@drawable/ian" >
+    </ImageView>
+<!--
+    <ImageView
+        android:id="@+id/grid_item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:clickable="false"
+        android:focusable="true"
         android:focusableInTouchMode="false"
         android:src="@drawable/ian" >
     </ImageView>
-
+-->
 </LinearLayout>

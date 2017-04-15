@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+@Deprecated
 public class BinderViewActivity extends AppCompatActivity {
     private int mDisplayWidth;
     private int mDisplayHeight;
@@ -60,10 +61,10 @@ public class BinderViewActivity extends AppCompatActivity {
         mGridView.setNumColumns(column);// set your  column number what you want
         int arrSize = column * column ;
 
-        long[] ids = getPageIds();
+        Long[] ids = getPageIds();
         int column_width = mDisplayWidth / column ;
         int column_height = mRequiredHeight / column ;
-        mGridView.setAdapter(new ImageAdapter(this, ids, column_width, column_height));
+        mGridView.setAdapter(new ImageAdapter(this, 0, null, column_width, column_height));
         enableDisableView(mGridView, false);
 //        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            public void onItemClick(AdapterView<?> parent, View v,
@@ -109,7 +110,7 @@ public class BinderViewActivity extends AppCompatActivity {
         return result + mActionBarSize;
     }
 
-    private long[] getPageIds() {
-        return new long[0];
+    private Long[] getPageIds() {
+        return new Long[0];
     }
 }

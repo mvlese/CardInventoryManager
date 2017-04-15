@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Deprecated
 public class AndroidCameraApi extends AppCompatActivity {
     private static final String TAG = "AndroidCameraApi";
     private ImageButton takePictureButton;

@@ -9,10 +9,25 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="net.leseonline.cardinventorymanager.BinderActivity"
     tools:showIn="@layout/activity_binder">
 
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/gridView1"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:numColumns="auto_fit"
+              android:background="@drawable/binder_open2"
+              android:focusable="true"
+              android:clickable="true"
+              android:stretchMode="columnWidth"
+              android:layout_alignParentEnd="false"
+              android:layout_alignParentStart="false"
+              android:layout_alignParentTop="false"
+              android:layout_alignParentBottom="true">
+    </GridView>
+<!--
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/gridView1"
               android:layout_width="fill_parent"
@@ -20,8 +35,10 @@
               android:gravity="center"
               android:numColumns="auto_fit"
               android:background="@drawable/binder_open2"
+              android:focusable="true"
+              android:clickable="true"
               android:stretchMode="columnWidth" >
 
     </GridView>
-
+-->
 </RelativeLayout>

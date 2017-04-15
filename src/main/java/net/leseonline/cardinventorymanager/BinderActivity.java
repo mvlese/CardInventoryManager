@@ -7,6 +7,7 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,8 +30,10 @@ import android.widget.Toast;
 
 import net.leseonline.cardinventorymanager.db.DatabaseHelper;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BinderActivity extends AppCompatActivity implements SearchDialogFragment.ISearchDialogListener {
     private int mDisplayWidth;
@@ -62,7 +65,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         mDatabaseHelper = new DatabaseHelper(this);
         mIds = mDatabaseHelper.search();
         mPage = 1;
-        mNumPages = mIds.size() / 9;
+        mNumPages = (mIds.size() / 9) + 1;
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -84,24 +87,30 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         int column = 3;
         mGridView = (GridView) findViewById(R.id.gridView1);
         mGridView.setPadding(leftPad, topPad, rightPad, topPad);
-
         mGridView.setNumColumns(column);// set your  column number what you want
         mColumnWidth = mDisplayWidth / column ;
         mColumnHeight = mRequiredHeight / column ;
-        long[] ids = getPageIds();
+        ArrayList<CardItem> data = getPageData();
+        ImageAdapter adapter = new ImageAdapter(this, R.id.grid_item_image, getPageData(), mColumnWidth, mColumnHeight);
+        mGridView.setAdapter(adapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                CardItem item = (CardItem) parent.getItemAtPosition(position);
+                Toast.makeText(BinderActivity.this, item.getCard().getFullName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        mGridView.setAdapter(new ImageAdapter(this, ids, mColumnWidth, mColumnHeight));
-        enableDisableView(mGridView, false);
-        mGridView.setSoundEffectsEnabled(true);
-
-        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
+//        enableDisableView(mGridView, false);
+//        mGridView.setSoundEffectsEnabled(true);
+//
+//        mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        this.mDetector.onTouchEvent(event);
-        Log.d("Gestures", "onTouch: " + event.toString());
+//        this.mDetector.onTouchEvent(event);
+//        Log.d("Gestures", "onTouch: " + event.toString());
         return super.dispatchTouchEvent(event);
     }
 
@@ -201,17 +210,38 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
                 Utilities.playPageFlip(BinderActivity.this);
                 if (x1 > x2) {
                     // swipe left, next
-                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, new long[0], mColumnWidth, mColumnHeight));
+                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, R.id.grid_item_image, null, mColumnWidth, mColumnHeight));
                 } else {
                     // swipe right, prev
-                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, new long[0], mColumnWidth, mColumnHeight));
+                    mGridView.setAdapter(new ImageAdapter(BinderActivity.this, R.id.grid_item_image, null, mColumnWidth, mColumnHeight));
                 }
             }
             return true;
         }
     }
 
-    private long[] getPageIds() {
-        return new long[0];
+    private ArrayList<CardItem> getPageData() {
+        ArrayList<CardItem> data = new ArrayList<CardItem>();
+        int start = (mPage - 1) * 9;
+        int end = start + 9;
+        end = (end > mIds.size()) ? mIds.size() : end;
+
+        for (int n = start; n < end; n++) {
+            BaseballCard card = mDatabaseHelper.find(mIds.get(n));
+            Bitmap bitmap = getImage(card.getUniqueId());
+            CardItem item = new CardItem(card, bitmap);
+            data.add(item);
+        }
+
+        return data;
     }
+
+    private Bitmap getImage(int cardId) {
+        File filesDir = this.getFilesDir();
+        String path = filesDir.getPath() + "/IMGF_" + String.valueOf(Math.abs(cardId)) + ".jpg";
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        return bitmap;
+    }
+
+
 }

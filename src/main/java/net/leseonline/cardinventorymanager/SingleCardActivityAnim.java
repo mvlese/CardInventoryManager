@@ -61,6 +61,14 @@ public class SingleCardActivityAnim extends AppCompatActivity implements
         mDatabaseHelper = new DatabaseHelper(this);
         mIds = mDatabaseHelper.search();
 
+        int extraUniqueId = this.getIntent().getIntExtra(getResources().getString(R.string.extra_unique_id), -1);
+        mUniqueCardId = (extraUniqueId == -1) ? mUniqueCardId : extraUniqueId;
+
+        mCurrentIndex = mIds.indexOf((long)mUniqueCardId);
+        if (mCurrentIndex == -1) {
+            mCurrentIndex = 0;
+        }
+
         mResourceIds.add((long)R.id.view_anim_left);
         mResourceIds.add((long)R.id.view_anim_center);
         mResourceIds.add((long)R.id.view_anim_right);

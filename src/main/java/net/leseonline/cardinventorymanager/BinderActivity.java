@@ -48,7 +48,7 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
     private int mPage;
     private int mNumPages;
     private ArrayList<Long> mIds;
-
+    private static final int ShowSingle = 7;
     private static int Width = 586;
     private static int Height = 784;
     private static int LeftOffset = 130;
@@ -96,13 +96,13 @@ public class BinderActivity extends AppCompatActivity implements SearchDialogFra
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 CardItem item = (CardItem) parent.getItemAtPosition(position);
-                Toast.makeText(BinderActivity.this, item.getCard().getFullName(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(BinderActivity.this, item.getCard().getFullName(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(BinderActivity.this, SingleCardActivityAnim.class);
+                intent.putExtra(getResources().getString(R.string.extra_unique_id), item.getCard().getUniqueId());
+                startActivityForResult(intent, ShowSingle);
             }
         });
 
-//        enableDisableView(mGridView, false);
-//        mGridView.setSoundEffectsEnabled(true);
-//
         mDetector = new GestureDetectorCompat(this, new MyGestureListener());
 
     }
